@@ -108,6 +108,21 @@ class MSIE(Browser):
 class Galeon(Browser):
     look_for = "Galeon"
 
+class Safari(Browser):
+    look_for = "Safari"
+    def checkWords(self, agent):
+        unless_list = ["Chrome", "OmniWeb"]
+        if self.look_for in agent:
+            for word in unless_list:
+                if word in agent:
+                    return False
+            return True
+    def getVersion(self, agent):
+        if "Version/" in agent:
+            return agent.split('Version/')[-1].split(' ')[0].strip()
+        else:
+            return agent.split('Safari ')[-1].split(' ')[0].strip() # Mobile Safari
+
 class Linux(OS):
     look_for = 'Linux'
     prefs = dict(browser = ["Firefox"], dist=["Ubuntu"], flavor=None)
