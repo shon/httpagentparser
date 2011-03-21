@@ -137,7 +137,15 @@ class MacOS(Flavor):
     look_for = 'Mac OS'
     prefs = dict (browser = ['Firefox', 'Opera', "Microsoft Internet Explorer"])
     def getVersion(self, agent):
-        return agent.split('Mac OS')[-1].split(';')[0].strip()
+        version_end_chars = [';', ')']
+        part = agent.split('Mac OS')[-1].strip()
+        version_list = []
+        for c in part:
+            if c in version_end_chars:
+                break
+            version_list.append(c)
+        version = ''.join(version_list).replace('_', '.')
+        return version
 
 class Windows(OS):
     look_for = 'Windows'
@@ -221,7 +229,11 @@ def simple_detect(agent):
 
 def test():
     import datetime
-    execfile("testdata", globals())
+    #execfile("testdata", globals())
+    agents = [
+       "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10",
+       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.3 Safari/534.24,gzip(gfe)"
+        ]
     then = datetime.datetime.now()
     for agent in agents * 10:
         print agent
