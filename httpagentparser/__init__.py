@@ -169,13 +169,11 @@ class MacOS(Flavor):
     def getVersion(self, agent):
         version_end_chars = [';', ')']
         part = agent.split('Mac OS')[-1].strip()
-        version_list = []
-        for c in part:
-            if c in version_end_chars:
+        for c in version_end_chars:
+            if c in part:
+                version = part.split(c)[0]
                 break
-            version_list.append(c)
-        version = ''.join(version_list).replace('_', '.')
-        return version
+        return version.replace('_', '.')
 
 
 class Windows(OS):
@@ -216,13 +214,11 @@ class IPhone(Dist):
     def getVersion(self, agent):
         version_end_chars = [';', ')']
         part = agent.split('Mac OS')[-1].strip()
-        version_list = []
-        for c in part:
-            if c in version_end_chars:
+        for c in version_end_chars:
+            if c in part:
+                version = part.split(c)[0]
                 break
-            version_list.append(c)
-        version = ''.join(version_list).replace('_', '.')
-        return version
+        return version.replace('_', '.')
 
 
 detectorshub = DetectorsHub()
