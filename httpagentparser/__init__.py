@@ -11,32 +11,38 @@ import sys
 
 class DetectorsHub(dict):
     _known_types = ['os', 'dist', 'flavor', 'browser']
+
     def __init__(self, *args, **kw):
         dict.__init__(self, *args, **kw)
         for typ in self._known_types:
             self.setdefault(typ, [])
         self.registerDetectors()
+
     def register(self, detector):
         if detector.info_type not in self._known_types:
             self[detector.info_type] = [detector]
             self._known_types.insert(detector.order, detector.info_type)
         else:
             self[detector.info_type].append(detector)
+
     def reorderByPrefs(self, detectors, prefs):
-        if prefs == None:
+        if prefs is None:
             return []
         elif prefs == []:
             return detectors
         else:
             prefs.insert(0, '')
             return sorted(detectors, key=lambda d: d.name in prefs and prefs.index(d.name) or sys.maxint)
+
     def __iter__(self):
         return iter(self._known_types)
+
     def registerDetectors(self):
         detectors = [v() for v in globals().values() if DetectorBase in getattr(v, '__mro__', [])]
         for d in detectors:
             if d.can_register:
                 self.register(d)
+
 
 class DetectorBase(object):
     name = "" # "to perform match in DetectorsHub object"
@@ -48,68 +54,85 @@ class DetectorBase(object):
     prefs = dict() # dict(info_type = [name1, name2], ..)
     version_splitters = ["/", " "]
     _suggested_detectors = None
+
     def __init__(self):
         if not self.name:
             self.name = self.__class__.__name__
         self.can_register = (self.__class__.__dict__.get('can_register', True))
+
     def detect(self, agent, result):
         # -> True/None
         if self.checkWords(agent):
-            result[self.info_type] = dict(name = self.name)
+            result[self.info_type] = dict(name=self.name)
             version = self.getVersion(agent)
             if version:
                 result[self.info_type]['version'] = version
             return True
+
     def checkWords(self, agent):
         # -> True/None
         if self.look_for in agent:
             return True
+
     def getVersion(self, agent):
         # -> version string /None
         return agent.split(self.look_for + self.version_splitters[0])[-1].split(self.version_splitters[1])[0].strip()
+
 
 class OS(DetectorBase):
     info_type = "os"
     can_register = False
     version_splitters = [";", " "]
 
+
 class Dist(DetectorBase):
     info_type = "dist"
     can_register = False
+
 
 class Flavor(DetectorBase):
     info_type = "flavor"
     can_register = False
 
+
 class Browser(DetectorBase):
     info_type = "browser"
     can_register = False
 
+
 class Macintosh(OS):
     look_for = 'Macintosh'
-    prefs = dict(dist = None)
+    prefs = dict(dist=None)
+
     def getVersion(self, agent): pass
+
 
 class Firefox(Browser):
     look_for = "Firefox"
+
 
 class Konqueror(Browser):
     look_for = "Konqueror"
     version_splitters = ["/", ";"]
 
+
 class Opera(Browser):
     look_for = "Opera"
+
 
 class MSIE(Browser):
     look_for = "MSIE"
     name = "Microsoft Internet Explorer"
     version_splitters = [" ", ";"]
 
+
 class Galeon(Browser):
     look_for = "Galeon"
 
+
 class Safari(Browser):
     look_for = "Safari"
+
     def checkWords(self, agent):
         unless_list = ["Chrome", "OmniWeb"]
         if self.look_for in agent:
@@ -117,25 +140,32 @@ class Safari(Browser):
                 if word in agent:
                     return False
             return True
+
     def getVersion(self, agent):
         if "Version/" in agent:
             return agent.split('Version/')[-1].split(' ')[0].strip()
         else:
             return agent.split('Safari ')[-1].split(' ')[0].strip() # Mobile Safari
 
+
 class Linux(OS):
     look_for = 'Linux'
-    prefs = dict(browser = ["Firefox"], dist=["Ubuntu"], flavor=None)
+    prefs = dict(browser=["Firefox"], dist=["Ubuntu", "Android"], flavor=None)
+
     def getVersion(self, agent): pass
+
 
 class Macintosh(OS):
     look_for = 'Macintosh'
-    prefs = dict (dist = None, flavor = ['MacOS'])
+    prefs = dict(dist=None, flavor=['MacOS'])
+
     def getVersion(self, agent): pass
+
 
 class MacOS(Flavor):
     look_for = 'Mac OS'
-    prefs = dict (browser = ['Firefox', 'Opera', "Microsoft Internet Explorer"])
+    prefs = dict(browser=['Firefox', 'Opera', "Microsoft Internet Explorer"])
+
     def getVersion(self, agent):
         version_end_chars = [';', ')']
         part = agent.split('Mac OS')[-1].strip()
@@ -147,31 +177,59 @@ class MacOS(Flavor):
         version = ''.join(version_list).replace('_', '.')
         return version
 
+
 class Windows(OS):
     look_for = 'Windows'
-    prefs = dict (browser = ["Microsoft Internet Explorer", 'Firefox'], dict = None, flavor = None)
+    prefs = dict(browser=["Microsoft Internet Explorer", 'Firefox'], dict=None, flavor=None)
+
     def getVersion(self, agent):
         return agent.split('Windows')[-1].split(';')[0].strip()
+
 
 class Ubuntu(Dist):
     look_for = 'Ubuntu'
     version_splitters = ["/", " "]
-    prefs = dict (browser = ['Firefox'])
+    prefs = dict(browser=['Firefox'])
+
 
 class Debian(Dist):
     look_for = 'Debian'
     version_splitters = ["/", " "]
-    prefs = dict (browser = ['Firefox'])
+    prefs = dict(browser=['Firefox'])
+
 
 class Chrome(Browser):
     look_for = "Chrome"
     version_splitters = ["/", " "]
 
+
+class Android(Dist):
+    look_for = 'Android'
+
+    def getVersion(self, agent):
+        return agent.split('Android')[-1].split(';')[0].strip()
+
+
+class IPhone(Dist):
+    look_for = 'iPhone'
+
+    def getVersion(self, agent):
+        version_end_chars = [';', ')']
+        part = agent.split('Mac OS')[-1].strip()
+        version_list = []
+        for c in part:
+            if c in version_end_chars:
+                break
+            version_list.append(c)
+        version = ''.join(version_list).replace('_', '.')
+        return version
+
+
 detectorshub = DetectorsHub()
 
 def detect(agent):
     result = dict()
-    prefs = dict ()
+    prefs = dict()
     _suggested_detectors = []
     for info_type in detectorshub:
         if not _suggested_detectors:
@@ -183,16 +241,18 @@ def detect(agent):
         else:
             detectors = _suggested_detectors
         for detector in detectors:
-            #print "detector name: ", detector.name
+            print "detector name: ", detector.name
             if detector.detect(agent, result):
                 prefs = detector.prefs
                 _suggested_detectors = detector._suggested_detectors
                 break
     return result
 
+
 class Result(dict):
     def __missing__(self, k):
         return ""
+
 
 def detect(agent):
     result = Result()
@@ -207,6 +267,7 @@ def detect(agent):
                     break
     return result
 
+
 def simple_detect(agent):
     """
     -> (os, browser) # tuple of strings
@@ -218,7 +279,8 @@ def simple_detect(agent):
     if 'os' in result: os_list.append(result['os']['name'])
 
     os = os_list and " ".join(os_list) or "Unknown OS"
-    os_version = os_list and (result['flavor'] and result['flavor'].get('version')) or (result['dist'] and result['dist'].get('version')) or (result['os'] and result['os'].get('version')) or ""
+    os_version = os_list and (result['flavor'] and result['flavor'].get('version')) or (
+    result['dist'] and result['dist'].get('version')) or (result['os'] and result['os'].get('version')) or ""
     browser = 'browser' in result and result['browser']['name'] or 'Unknown Browser'
     browser_version = 'browser' in result and result['browser'].get('version') or ""
     if browser_version:
@@ -227,23 +289,26 @@ def simple_detect(agent):
         os = " ".join((os, os_version))
     return os, browser
 
+
 def test():
-    import datetime
-    #execfile("testdata", globals())
+    import time
+
     agents = [
-       "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10",
-       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.3 Safari/534.24,gzip(gfe)"
-        ]
-    then = datetime.datetime.now()
+        "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.3 Safari/534.24,gzip(gfe)",
+        "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2) Gecko/20100308 Ubuntu/10.04 (lucid) Firefox/3.6 GTB7.1",
+        "Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+        "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3"
+    ]
+    then = time.time()
     for agent in agents * 10:
-        print agent
-        #print detect(agent)
-        print "* ", simple_detect(agent)
-    #s = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10"
-    #print s
-    #print detect(s)
-    now = datetime.datetime.now()
-    print len(agents), "analysed in ", now - then
+        print ''.join(['-' for i in range(80)])
+        print '[USER_AGENT]\t', agent
+        print '[SIMPLE_DETECT]\t', simple_detect(agent)
+        print '[DETECT]\t\t', detect(agent)
+    print ''.join(['=' for i in range(80)])
+    print '[TEST COMPLETED]', len(agents), "agents are analysed in %.9f seconds" % ((time.time() - then) / 100000)
+    print ''.join(['=' for i in range(80)])
 
 if __name__ == '__main__':
-    test()
+    sys.exit(test())
