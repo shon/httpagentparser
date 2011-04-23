@@ -200,6 +200,12 @@ class Chrome(Browser):
     look_for = "Chrome"
     version_splitters = ["/", " "]
 
+class ChromeOS(OS):
+    look_for = "CrOS"
+    version_splitters = [" ", " "]
+    prefs = dict(browser=['Chrome'])
+    def getVersion(self, agent):
+        return agent.split(self.look_for + self.version_splitters[0])[-1].split(self.version_splitters[1])[1].strip()[:-1]
 
 class Android(Dist):
     look_for = 'Android'
@@ -286,25 +292,52 @@ def simple_detect(agent):
     return os, browser
 
 
-def test():
-    import time
-
-    agents = [
-        "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.3 Safari/534.24,gzip(gfe)",
-        "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2) Gecko/20100308 Ubuntu/10.04 (lucid) Firefox/3.6 GTB7.1",
-        "Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
-        "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3"
-    ]
-    then = time.time()
-    for agent in agents * 10:
-        print ''.join(['-' for i in range(80)])
-        print '[USER_AGENT]\t', agent
-        print '[SIMPLE_DETECT]\t', simple_detect(agent)
-        print '[DETECT]\t\t', detect(agent)
-    print ''.join(['=' for i in range(80)])
-    print '[TEST COMPLETED]', len(agents), "agents are analysed in %.9f seconds" % ((time.time() - then) / 100000)
-    print ''.join(['=' for i in range(80)])
-
 if __name__ == '__main__':
-    sys.exit(test())
+    import time
+    import unittest
+
+    data = (
+("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10",
+    ('MacOS Macintosh X 10.5', 'Firefox 3.0.10'),
+    {'flavor': {'version': 'X 10.5', 'name': 'MacOS'}, 'os': {'name': 'Macintosh'}, 'browser': {'version': '3.0.10', 'name': 'Firefox'}},),
+("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.3 Safari/534.24,gzip(gfe)",
+    ('MacOS Macintosh X 10.6.6', 'Chrome 11.0.696.3'),
+    {'flavor': {'version': 'X 10.6.6', 'name': 'MacOS'}, 'os': {'name': 'Macintosh'}, 'browser': {'version': '11.0.696.3', 'name': 'Chrome'}},),
+("Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2) Gecko/20100308 Ubuntu/10.04 (lucid) Firefox/3.6 GTB7.1",
+    ('Ubuntu Linux 10.04', 'Firefox 3.6'),
+    {'dist': {'version': '10.04', 'name': 'Ubuntu'}, 'os': {'name': 'Linux'}, 'browser': {'version': '3.6', 'name': 'Firefox'}},),
+("Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+    ('Android Linux 2.2.1', 'Safari 4.0'),
+    {'dist': {'version': '2.2.1', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '4.0', 'name': 'Safari'}},),
+("Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
+    ('MacOS IPhone X', 'Safari 3.0'),
+    {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': 'X', 'name': 'IPhone'}, 'browser': {'version': '3.0', 'name': 'Safari'}},),
+("Mozilla/5.0 (X11; CrOS i686 0.0.0) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.27 Safari/534.24,gzip(gfe)",
+    ('ChromeOS 0.0.0', 'Chrome 11.0.696.27'),
+    {'os': {'name': 'ChromeOS', 'version': '0.0.0'}, 'browser': {'name': 'Chrome', 'version': '11.0.696.27'}},)
+)
+
+    class TestHAP(unittest.TestCase):
+        def setUp(self):
+            self.harass_repeat = 1000
+            self.data = data
+
+        def test_simple_detect(self):
+            for agent, simple_res, res in data:
+                self.assertEqual(simple_detect(agent), simple_res)
+
+        def test_detect(self):
+            for agent, simple_res, res in data:
+                self.assertEqual(detect(agent), res)
+
+        def test_harass(self):
+            then = time.time()
+            for agent, simple_res, res in data * self.harass_repeat:
+                detect(agent)
+            time_taken = time.time() - then
+            no_of_tests = len(self.data) * self.harass_repeat
+            print "\nTime taken for %s detecttions: %s" % (no_of_tests, time_taken)
+            print "Time taken for single detecttion: ", time_taken / (len(self.data) * self.harass_repeat)
+
+    unittest.main()
+
