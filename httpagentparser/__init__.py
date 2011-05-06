@@ -1,6 +1,7 @@
 """
 Extract client information from http user agent
-The module does not try to detect all capabilities of browser in current form (it can easily be extended though).
+The module does not try to detect all capabilities of browser in current form
+(it can easily be extended though).
 Aim is
     * fast
     * very easy to extend
@@ -8,6 +9,7 @@ Aim is
     * and assist python web apps to detect clients.
 """
 import sys
+
 
 class DetectorsHub(dict):
     _known_types = ['os', 'dist', 'flavor', 'browser']
@@ -32,13 +34,15 @@ class DetectorsHub(dict):
             return detectors
         else:
             prefs.insert(0, '')
-            return sorted(detectors, key=lambda d: d.name in prefs and prefs.index(d.name) or sys.maxint)
+            return sorted(detectors, key=lambda d: d.name in prefs
+                and prefs.index(d.name) or sys.maxint)
 
     def __iter__(self):
         return iter(self._known_types)
 
     def registerDetectors(self):
-        detectors = [v() for v in globals().values() if DetectorBase in getattr(v, '__mro__', [])]
+        detectors = [v() for v in globals().values()
+            if DetectorBase in getattr(v, '__mro__', [])]
         for d in detectors:
             if d.can_register:
                 self.register(d)
@@ -58,7 +62,7 @@ class DetectorBase(object):
     def __init__(self):
         if not self.name:
             self.name = self.__class__.__name__
-        self.can_register = (self.__class__.__dict__.get('can_register', True))
+        self.can_register = self.__class__.__dict__.get('can_register', True)
 
     def detect(self, agent, result):
         # -> True/None
@@ -76,7 +80,9 @@ class DetectorBase(object):
 
     def getVersion(self, agent):
         # -> version string /None
-        return agent.split(self.look_for + self.version_splitters[0])[-1].split(self.version_splitters[1])[0].strip()
+        return agent.split(self.look_for +
+            self.version_splitters[0])[-1].split(
+                self.version_splitters[1])[0].strip()
 
 
 class OS(DetectorBase):
@@ -104,7 +110,8 @@ class Macintosh(OS):
     look_for = 'Macintosh'
     prefs = dict(dist=None)
 
-    def getVersion(self, agent): pass
+    def getVersion(self, agent):
+        pass
 
 
 class Firefox(Browser):
@@ -145,21 +152,24 @@ class Safari(Browser):
         if "Version/" in agent:
             return agent.split('Version/')[-1].split(' ')[0].strip()
         else:
-            return agent.split('Safari ')[-1].split(' ')[0].strip() # Mobile Safari
+            # Mobile Safari
+            return agent.split('Safari ')[-1].split(' ')[0].strip()
 
 
 class Linux(OS):
     look_for = 'Linux'
     prefs = dict(browser=["Firefox"], dist=["Ubuntu", "Android"], flavor=None)
 
-    def getVersion(self, agent): pass
+    def getVersion(self, agent):
+        pass
 
 
 class Macintosh(OS):
     look_for = 'Macintosh'
     prefs = dict(dist=None, flavor=['MacOS'])
 
-    def getVersion(self, agent): pass
+    def getVersion(self, agent):
+        pass
 
 
 class MacOS(Flavor):
@@ -178,10 +188,15 @@ class MacOS(Flavor):
 
 class Windows(OS):
     look_for = 'Windows'
-    prefs = dict(browser=["Microsoft Internet Explorer", 'Firefox'], dict=None, flavor=None)
+    prefs = dict(browser=["Microsoft Internet Explorer", 'Firefox'],
+        dict=None, flavor=None)
 
     def getVersion(self, agent):
-        return agent.split('Windows')[-1].split(';')[0].strip()
+        temp = agent.split('Windows')[-1]
+        if temp.find(";") > -1:
+            return temp.split(';')[0].strip()
+        else:
+            return temp.split(')')[0].strip()
 
 
 class Ubuntu(Dist):
@@ -200,12 +215,17 @@ class Chrome(Browser):
     look_for = "Chrome"
     version_splitters = ["/", " "]
 
+
 class ChromeOS(OS):
     look_for = "CrOS"
     version_splitters = [" ", " "]
     prefs = dict(browser=['Chrome'])
+
     def getVersion(self, agent):
-        return agent.split(self.look_for + self.version_splitters[0])[-1].split(self.version_splitters[1])[1].strip()[:-1]
+        return agent.split(self.look_for +
+            self.version_splitters[0])[-1].split(
+                self.version_splitters[1])[1].strip()[:-1]
+
 
 class Android(Dist):
     look_for = 'Android'
@@ -229,29 +249,9 @@ class IPhone(Dist):
 
 detectorshub = DetectorsHub()
 
-def detect(agent):
-    result = dict()
-    prefs = dict()
-    _suggested_detectors = []
-    for info_type in detectorshub:
-        if not _suggested_detectors:
-            detectors = detectorshub[info_type]
-            _d_prefs = prefs.get(info_type, [])
-            detectors = detectorshub.reorderByPrefs(detectors, _d_prefs)
-            if "detector" in locals():
-                detector._suggested_detectors = detectors
-        else:
-            detectors = _suggested_detectors
-        for detector in detectors:
-            print "detector name: ", detector.name
-            if detector.detect(agent, result):
-                prefs = detector.prefs
-                _suggested_detectors = detector._suggested_detectors
-                break
-    return result
-
 
 class Result(dict):
+
     def __missing__(self, k):
         return ""
 
@@ -264,7 +264,8 @@ def detect(agent):
         for detector in detectors:
             if detector.detect(agent, result):
                 if detector.prefs and not detector._suggested_detectors:
-                    _suggested_detectors = detectorshub.reorderByPrefs(detectors, detector.prefs.get(info_type))
+                    _suggested_detectors = detectorshub.reorderByPrefs(
+                        detectors, detector.prefs.get(info_type))
                     detector._suggested_detectors = _suggested_detectors
                     break
     return result
@@ -276,15 +277,24 @@ def simple_detect(agent):
     """
     result = detect(agent)
     os_list = []
-    if 'flavor' in result: os_list.append(result['flavor']['name'])
-    if 'dist' in result: os_list.append(result['dist']['name'])
-    if 'os' in result: os_list.append(result['os']['name'])
+    if 'flavor' in result:
+        os_list.append(result['flavor']['name'])
+    if 'dist' in result:
+        os_list.append(result['dist']['name'])
+    if 'os' in result:
+        os_list.append(result['os']['name'])
 
     os = os_list and " ".join(os_list) or "Unknown OS"
-    os_version = os_list and (result['flavor'] and result['flavor'].get('version')) or (
-    result['dist'] and result['dist'].get('version')) or (result['os'] and result['os'].get('version')) or ""
-    browser = 'browser' in result and result['browser']['name'] or 'Unknown Browser'
-    browser_version = 'browser' in result and result['browser'].get('version') or ""
+    os_version = os_list and (result['flavor'] \
+        and result['flavor'].get('version')) \
+        or (result['dist'] and result['dist'].get('version')) \
+        or (result['os'] and result['os'].get('version')) \
+        or ""
+    browser = 'browser' in result and result['browser']['name'] \
+        or 'Unknown Browser'
+    browser_version = 'browser' in result \
+        and result['browser'].get('version') \
+        or ""
     if browser_version:
         browser = " ".join((browser, browser_version))
     if os_version:
@@ -314,10 +324,14 @@ if __name__ == '__main__':
     {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': 'X', 'name': 'IPhone'}, 'browser': {'version': '3.0', 'name': 'Safari'}},),
 ("Mozilla/5.0 (X11; CrOS i686 0.0.0) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.27 Safari/534.24,gzip(gfe)",
     ('ChromeOS 0.0.0', 'Chrome 11.0.696.27'),
-    {'os': {'name': 'ChromeOS', 'version': '0.0.0'}, 'browser': {'name': 'Chrome', 'version': '11.0.696.27'}},)
+    {'os': {'name': 'ChromeOS', 'version': '0.0.0'}, 'browser': {'name': 'Chrome', 'version': '11.0.696.27'}},),
+("Mozilla/5.0 (Windows NT 5.1) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.60 Safari/534.24",
+    ('Windows NT 5.1', 'Chrome 11.0.696.60'),
+    {'os': {'version': 'NT 5.1', 'name': 'Windows'}, 'browser': {'version': '11.0.696.60', 'name': 'Chrome'}},),
 )
 
     class TestHAP(unittest.TestCase):
+
         def setUp(self):
             self.harass_repeat = 1000
             self.data = data
@@ -336,8 +350,9 @@ if __name__ == '__main__':
                 detect(agent)
             time_taken = time.time() - then
             no_of_tests = len(self.data) * self.harass_repeat
-            print "\nTime taken for %s detecttions: %s" % (no_of_tests, time_taken)
-            print "Time taken for single detecttion: ", time_taken / (len(self.data) * self.harass_repeat)
+            print "\nTime taken for %s detections: %s" % \
+                (no_of_tests, time_taken)
+            print "Time taken for single detection: ", \
+                time_taken / (len(self.data) * self.harass_repeat)
 
     unittest.main()
-
