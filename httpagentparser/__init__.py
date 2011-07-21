@@ -50,6 +50,7 @@ class DetectorBase(object):
     result_key = "override me"
     order = 10 # 0 is highest
     look_for = "string to look for"
+    skip_if_found = [] # strings if present stop processin
     can_register = False
     prefs = dict() # dict(info_type = [name1, name2], ..)
     version_splitters = ["/", " "]
@@ -71,6 +72,9 @@ class DetectorBase(object):
 
     def checkWords(self, agent):
         # -> True/None
+        for w in self.skip_if_found:
+            if w in agent:
+                return False
         if self.look_for in agent:
             return True
 
@@ -118,10 +122,13 @@ class Konqueror(Browser):
 
 class Opera(Browser):
     look_for = "Opera"
+    def getVersion(self, agent):
+        return agent.split(self.look_for)[1][1:].split(' ')[0]
 
 
 class MSIE(Browser):
     look_for = "MSIE"
+    skip_if_found = ["Opera"]
     name = "Microsoft Internet Explorer"
     version_splitters = [" ", ";"]
 
@@ -181,7 +188,10 @@ class Windows(OS):
     prefs = dict(browser=["Microsoft Internet Explorer", 'Firefox'], dict=None, flavor=None)
 
     def getVersion(self, agent):
-        return agent.split('Windows')[-1].split(';')[0].strip()
+        v = agent.split('Windows')[-1].split(';')[0].strip()
+        if ')' in v:
+            v = v.split(')')[0]
+        return v
 
 
 class Ubuntu(Dist):
@@ -314,7 +324,13 @@ if __name__ == '__main__':
     {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': 'X', 'name': 'IPhone'}, 'browser': {'version': '3.0', 'name': 'Safari'}},),
 ("Mozilla/5.0 (X11; CrOS i686 0.0.0) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.27 Safari/534.24,gzip(gfe)",
     ('ChromeOS 0.0.0', 'Chrome 11.0.696.27'),
-    {'os': {'name': 'ChromeOS', 'version': '0.0.0'}, 'browser': {'name': 'Chrome', 'version': '11.0.696.27'}},)
+    {'os': {'name': 'ChromeOS', 'version': '0.0.0'}, 'browser': {'name': 'Chrome', 'version': '11.0.696.27'}},),
+("Mozilla/4.0 (compatible; MSIE 6.0; MSIE 5.5; Windows NT 5.1) Opera 7.02 [en]",
+    ('Windows NT 5.1', 'Opera 7.02'),
+    {'os': {'name': 'Windows', 'version': 'NT 5.1'}, 'browser': {'name': 'Opera', 'version': '7.02'}},),
+("Opera/9.80 (X11; Linux i686; U; en) Presto/2.9.168 Version/11.50",
+    ("Linux", "Opera 9.80"),
+    {"os": {"name": "Linux"}, "browser": {"name": "Opera", "version": "9.80"}},)
 )
 
     class TestHAP(unittest.TestCase):
