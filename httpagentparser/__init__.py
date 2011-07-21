@@ -125,6 +125,8 @@ class Opera(Browser):
     def getVersion(self, agent):
         return agent.split(self.look_for)[1][1:].split(' ')[0]
 
+class Netscape(Browser):
+    look_for = "Netscape"
 
 class MSIE(Browser):
     look_for = "MSIE"
@@ -330,7 +332,10 @@ if __name__ == '__main__':
     {'os': {'name': 'Windows', 'version': 'NT 5.1'}, 'browser': {'name': 'Opera', 'version': '7.02'}},),
 ("Opera/9.80 (X11; Linux i686; U; en) Presto/2.9.168 Version/11.50",
     ("Linux", "Opera 9.80"),
-    {"os": {"name": "Linux"}, "browser": {"name": "Opera", "version": "9.80"}},)
+    {"os": {"name": "Linux"}, "browser": {"name": "Opera", "version": "9.80"}},),
+("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.5) Gecko/20060127 Netscape/8.1",
+    ("Windows NT 5.1", "Netscape 8.1"),
+    {'os': {'name': 'Windows', 'version': 'NT 5.1'}, 'browser': {'name': 'Netscape', 'version': '8.1'}},),
 )
 
     class TestHAP(unittest.TestCase):
