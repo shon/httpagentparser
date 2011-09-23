@@ -138,12 +138,16 @@ class MSIE(Browser):
 class Galeon(Browser):
     look_for = "Galeon"
 
+class WOSBrowser(Browser):
+    look_for = "wOSBrowser"
+
+    def getVersion(self, agent): pass
 
 class Safari(Browser):
     look_for = "Safari"
 
     def checkWords(self, agent):
-        unless_list = ["Chrome", "OmniWeb"]
+        unless_list = ["Chrome", "OmniWeb", "wOSBrowser"]
         if self.look_for in agent:
             for word in unless_list:
                 if word in agent:
@@ -181,8 +185,8 @@ class MacOS(Flavor):
         for c in version_end_chars:
             if c in part:
                 version = part.split(c)[0]
-                break
-        return version.replace('_', '.')
+                return version.replace('_', '.')
+        return ''
 
 
 class Windows(OS):
@@ -224,6 +228,12 @@ class Android(Dist):
 
     def getVersion(self, agent):
         return agent.split('Android')[-1].split(';')[0].strip()
+
+class WebOS(Dist):
+    look_for = 'hpwOS'
+
+    def getVersion(self, agent):
+        return agent.split('hpwOS/')[-1].split(';')[0].strip()
 
 
 class IPhone(Dist):
@@ -336,6 +346,9 @@ if __name__ == '__main__':
 ("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.5) Gecko/20060127 Netscape/8.1",
     ("Windows NT 5.1", "Netscape 8.1"),
     {'os': {'name': 'Windows', 'version': 'NT 5.1'}, 'browser': {'name': 'Netscape', 'version': '8.1'}},),
+("Mozilla/5.0 (hp-tablet; Linux; hpwOS/3.0.2; U; en-US) AppleWebKit/534.6 (KHTML, like Gecko) wOSBrowser/234.40.1 Safari/534.6 TouchPad/1.0",
+    ("WebOS Linux 3.0.2", "WOSBrowser"),
+    {'dist': {'name': 'WebOS', 'version': '3.0.2'}, 'os' : {'name' : 'Linux'}, 'browser': {'name': 'WOSBrowser'}},),
 )
 
     class TestHAP(unittest.TestCase):
