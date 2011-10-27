@@ -303,9 +303,9 @@ def simple_detect(agent):
     if 'os' in result: os_list.append(result['os']['name'])
 
     os = os_list and " ".join(os_list) or "Unknown OS"
-    os_version = os_list and (result['flavor'] and result['flavor'].get('version')) or (
-    result['dist'] and result['dist'].get('version')) or (result['os'] and result['os'].get('version')) or ""
-    browser = 'browser' in result and result['browser']['name'] or 'Unknown Browser'
+    os_version = os_list and (result.get('flavor') and result['flavor'].get('version')) or (
+    result.get('dist') and result['dist'].get('version')) or (result.get('os') and result['os'].get('version')) or ""
+    browser = 'browser' in result and result['browser'].get('name') or 'Unknown Browser'
     browser_version = 'browser' in result and result['browser'].get('version') or ""
     if browser_version:
         browser = " ".join((browser, browser_version))
