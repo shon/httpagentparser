@@ -123,7 +123,12 @@ class Konqueror(Browser):
 class Opera(Browser):
     look_for = "Opera"
     def getVersion(self, agent):
-        return agent.split(self.look_for)[1][1:].split(' ')[0]
+        try:
+            look_for = "Version"
+            return agent.split(look_for)[1][1:].split(' ')[0]
+        except:
+            look_for = "Opera"
+            return agent.split(look_for)[1][1:].split(' ')[0]
 
 class Netscape(Browser):
     look_for = "Netscape"
