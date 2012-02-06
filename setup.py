@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='httpagentparser',
-    version='0.9.9',
+    version='1.0.1',
     description='Extracts OS Browser etc information from http user agent string',
     long_description=file("README.rst").read(),
     packages=find_packages(),
