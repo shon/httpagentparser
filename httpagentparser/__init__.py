@@ -250,8 +250,7 @@ class IPhone(Dist):
         for c in version_end_chars:
             if c in part:
                 version = part.split(c)[0]
-                break
-        return version.replace('_', '.')
+                return version.replace('_', '.')
 
 
 detectorshub = DetectorsHub()
