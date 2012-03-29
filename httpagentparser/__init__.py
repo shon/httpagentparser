@@ -172,6 +172,14 @@ class Linux(OS):
 
     def getVersion(self, agent): pass
 
+class Blackberry(OS):
+    look_for = 'BlackBerry'
+    prefs = dict(dist=["BlackberryPlaybook"], flavor=None)
+    def getVersion(self, agent): pass
+
+class BlackberryPlaybook(Dist):
+    look_for = 'PlayBook'
+    def getVersion(self, agent): pass
 
 class Macintosh(OS):
     look_for = 'Macintosh'
@@ -242,8 +250,13 @@ class Android(Dist):
     look_for = 'Android'
 
     def getVersion(self, agent):
-        return agent.split('Android')[-1].split(';')[0].strip()
-
+        if "Mobile Safari" in agent:
+            deviceType = "Phone"
+        else:
+            deviceType = "Tablet"
+        aVersion = agent.split('Android')[-1].split(';')[0].strip()
+        return deviceType + " " + aVersion     
+        
 class WebOS(Dist):
     look_for = 'hpwOS'
 
@@ -262,6 +275,16 @@ class IPhone(Dist):
                 version = part.split(c)[0]
                 return version.replace('_', '.')
 
+class IPad(Dist):
+    look_for = 'iPad'
+
+    def getVersion(self, agent):
+        version_end_chars = [';', ')']
+        part = agent.split('Mac OS')[-1].strip()
+        for c in version_end_chars:
+            if c in part:
+                version = part.split(c)[0]
+                return version.replace('_', '.')
 
 detectorshub = DetectorsHub()
 
@@ -343,8 +366,8 @@ if __name__ == '__main__':
     ('Ubuntu Linux 10.04', 'Firefox 3.6'),
     {'dist': {'version': '10.04', 'name': 'Ubuntu'}, 'os': {'name': 'Linux'}, 'browser': {'version': '3.6', 'name': 'Firefox'}},),
 ("Mozilla/5.0 (Linux; U; Android 2.2.1; fr-ch; A43 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
-    ('Android Linux 2.2.1', 'Safari 4.0'),
-    {'dist': {'version': '2.2.1', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '4.0', 'name': 'Safari'}},),
+    ('Android Linux Phone 2.2.1', 'Safari 4.0'),
+    {'dist': {'version': 'Phone 2.2.1', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '4.0', 'name': 'Safari'}},),
 ("Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3",
     ('MacOS IPhone X', 'Safari 3.0'),
     {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': 'X', 'name': 'IPhone'}, 'browser': {'version': '3.0', 'name': 'Safari'}},),
@@ -363,6 +386,18 @@ if __name__ == '__main__':
 ("Mozilla/5.0 (hp-tablet; Linux; hpwOS/3.0.2; U; en-US) AppleWebKit/534.6 (KHTML, like Gecko) wOSBrowser/234.40.1 Safari/534.6 TouchPad/1.0",
     ("WebOS Linux 3.0.2", "WOSBrowser"),
     {'dist': {'name': 'WebOS', 'version': '3.0.2'}, 'os' : {'name' : 'Linux'}, 'browser': {'name': 'WOSBrowser'}},),
+("Mozilla/5.0 (iPad; CPU OS 5_0_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A405 Safari/7534.48.3",
+    ('MacOS IPad X', 'Safari 5.1'),
+    {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': 'X', 'name': 'IPad'}, 'browser': {'version': '5.1', 'name': 'Safari'}},),
+("Mozilla/5.0 (Linux; U; Android 3.2.1; en-gb; Transformer TF101 Build/HTK75) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13",
+    ('Android Linux Tablet 3.2.1', 'Safari 4.0'),
+    {'dist': {'version': 'Tablet 3.2.1', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '4.0', 'name': 'Safari'}},),
+("Mozilla/5.0 (BlackBerry; U; BlackBerry 9700; en-US) AppleWebKit/534.8+ (KHTML, like Gecko) Version/6.0.0.448 Mobile Safari/534.8+",
+    ('Blackberry', 'Safari 6.0.0.448'),
+    {'os': {'name': 'Blackberry'}, 'browser': {'version': '6.0.0.448', 'name': 'Safari'}},),
+("Mozilla/5.0 (PlayBook; U; RIM Tablet OS 1.0.0; en-US) AppleWebKit/534.11+ (KHTML, like Gecko) Version/7.1.0.7 Safari/534.11+",
+    ('BlackberryPlaybook', 'Safari 7.1.0.7'),
+    {'dist': {'name': 'BlackberryPlaybook'}, 'browser': {'version': '7.1.0.7', 'name': 'Safari'}},),
 )
 
     class TestHAP(unittest.TestCase):
