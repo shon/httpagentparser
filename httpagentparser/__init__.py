@@ -197,12 +197,7 @@ class MacOS(Flavor):
 class Windows(OS):
     look_for = 'Windows'
     prefs = dict(browser=["Microsoft Internet Explorer", 'Firefox'], dict=None, flavor=None)
-
-    def getVersion(self, agent):
-        v = agent.split('Windows')[-1].split(';')[0].strip()
-        if ')' in v:
-            v = v.split(')')[0]
-        windowsNames = {
+    win_versions = {
             "NT 6.1": "7",
             "NT 6.0": "Vista",
             "NT 5.2": "Server 2003 / XP x64",
@@ -211,8 +206,12 @@ class Windows(OS):
             "NT 5.0": "2000",
             "98; Win 9x 4.90": "Me"
         }
-        if (v in windowsNames):
-                v = windowsNames[v]            
+
+    def getVersion(self, agent):
+        v = agent.split('Windows')[-1].split(';')[0].strip()
+        if ')' in v:
+            v = v.split(')')[0]
+        v = self.win_versions.get(v, v)
         return v
 
 
@@ -353,14 +352,14 @@ if __name__ == '__main__':
     ('ChromeOS 0.0.0', 'Chrome 11.0.696.27'),
     {'os': {'name': 'ChromeOS', 'version': '0.0.0'}, 'browser': {'name': 'Chrome', 'version': '11.0.696.27'}},),
 ("Mozilla/4.0 (compatible; MSIE 6.0; MSIE 5.5; Windows NT 5.1) Opera 7.02 [en]",
-    ('Windows NT 5.1', 'Opera 7.02'),
-    {'os': {'name': 'Windows', 'version': 'NT 5.1'}, 'browser': {'name': 'Opera', 'version': '7.02'}},),
+    ('Windows XP', 'Opera 7.02'),
+    {'os': {'name': 'Windows', 'version': 'XP'}, 'browser': {'name': 'Opera', 'version': '7.02'}},),
 ("Opera/9.80 (X11; Linux i686; U; en) Presto/2.9.168 Version/11.50",
     ("Linux", "Opera 11.50"),
     {"os": {"name": "Linux"}, "browser": {"name": "Opera", "version": "11.50"}},),
 ("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.5) Gecko/20060127 Netscape/8.1",
-    ("Windows NT 5.1", "Netscape 8.1"),
-    {'os': {'name': 'Windows', 'version': 'NT 5.1'}, 'browser': {'name': 'Netscape', 'version': '8.1'}},),
+    ("Windows XP", "Netscape 8.1"),
+    {'os': {'name': 'Windows', 'version': 'XP'}, 'browser': {'name': 'Netscape', 'version': '8.1'}},),
 ("Mozilla/5.0 (hp-tablet; Linux; hpwOS/3.0.2; U; en-US) AppleWebKit/534.6 (KHTML, like Gecko) wOSBrowser/234.40.1 Safari/534.6 TouchPad/1.0",
     ("WebOS Linux 3.0.2", "WOSBrowser"),
     {'dist': {'name': 'WebOS', 'version': '3.0.2'}, 'os' : {'name' : 'Linux'}, 'browser': {'name': 'WOSBrowser'}},),
