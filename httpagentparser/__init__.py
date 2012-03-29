@@ -202,6 +202,17 @@ class Windows(OS):
         v = agent.split('Windows')[-1].split(';')[0].strip()
         if ')' in v:
             v = v.split(')')[0]
+        windowsNames = {
+            "NT 6.1": "7",
+            "NT 6.0": "Vista",
+            "NT 5.2": "Server 2003 / XP x64",
+            "NT 5.1": "XP",
+            "NT 5.01": "2000 SP1",
+            "NT 5.0": "2000",
+            "98; Win 9x 4.90": "Me"
+        }
+        if (v in windowsNames):
+                v = windowsNames[v]            
         return v
 
 
