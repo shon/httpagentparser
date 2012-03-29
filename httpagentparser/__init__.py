@@ -378,6 +378,12 @@ if __name__ == '__main__':
 ("Mozilla/5.0 (hp-tablet; Linux; hpwOS/3.0.2; U; en-US) AppleWebKit/534.6 (KHTML, like Gecko) wOSBrowser/234.40.1 Safari/534.6 TouchPad/1.0",
     ("WebOS Linux 3.0.2", "WOSBrowser"),
     {'dist': {'name': 'WebOS', 'version': '3.0.2'}, 'os' : {'name' : 'Linux'}, 'browser': {'name': 'WOSBrowser'}},),
+("Mozilla/5.0 (iPad; CPU OS 5_0_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A405 Safari/7534.48.3",
+    ('MacOS IPad X', 'Safari 5.1'),
+    {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': 'X', 'name': 'IPad'}, 'browser': {'version': '5.1', 'name': 'Safari'}},),
+("Mozilla/5.0 (Linux; U; Android 3.2.1; en-gb; Transformer TF101 Build/HTK75) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13",
+    ('Android Linux Tablet 3.2.1', 'Safari 4.0'),
+    {'dist': {'version': 'Tablet 3.2.1', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '4.0', 'name': 'Safari'}},),
 )
 
     class TestHAP(unittest.TestCase):
