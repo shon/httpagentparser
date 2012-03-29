@@ -172,6 +172,14 @@ class Linux(OS):
 
     def getVersion(self, agent): pass
 
+class Blackberry(OS):
+    look_for = 'BlackBerry'
+    prefs = dict(dist=["BlackberryPlaybook"], flavor=None)
+    def getVersion(self, agent): pass
+
+class BlackberryPlaybook(Dist):
+    look_for = 'PlayBook'
+    def getVersion(self, agent): pass
 
 class Macintosh(OS):
     look_for = 'Macintosh'
