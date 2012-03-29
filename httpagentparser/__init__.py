@@ -262,6 +262,16 @@ class IPhone(Dist):
                 version = part.split(c)[0]
                 return version.replace('_', '.')
 
+class IPad(Dist):
+    look_for = 'iPad'
+
+    def getVersion(self, agent):
+        version_end_chars = [';', ')']
+        part = agent.split('Mac OS')[-1].strip()
+        for c in version_end_chars:
+            if c in part:
+                version = part.split(c)[0]
+                return version.replace('_', '.')
 
 detectorshub = DetectorsHub()
 
