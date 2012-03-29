@@ -392,6 +392,12 @@ if __name__ == '__main__':
 ("Mozilla/5.0 (Linux; U; Android 3.2.1; en-gb; Transformer TF101 Build/HTK75) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13",
     ('Android Linux Tablet 3.2.1', 'Safari 4.0'),
     {'dist': {'version': 'Tablet 3.2.1', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '4.0', 'name': 'Safari'}},),
+("Mozilla/5.0 (BlackBerry; U; BlackBerry 9700; en-US) AppleWebKit/534.8+ (KHTML, like Gecko) Version/6.0.0.448 Mobile Safari/534.8+",
+    ('Blackberry', 'Safari 6.0.0.448'),
+    {'os': {'name': 'Blackberry'}, 'browser': {'version': '6.0.0.448', 'name': 'Safari'}},),
+("Mozilla/5.0 (PlayBook; U; RIM Tablet OS 1.0.0; en-US) AppleWebKit/534.11+ (KHTML, like Gecko) Version/7.1.0.7 Safari/534.11+",
+    ('BlackberryPlaybook', 'Safari 7.1.0.7'),
+    {'dist': {'name': 'BlackberryPlaybook'}, 'browser': {'version': '7.1.0.7', 'name': 'Safari'}},),
 )
 
     class TestHAP(unittest.TestCase):
