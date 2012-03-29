@@ -242,8 +242,13 @@ class Android(Dist):
     look_for = 'Android'
 
     def getVersion(self, agent):
-        return agent.split('Android')[-1].split(';')[0].strip()
-
+        if "Mobile Safari" in agent:
+            deviceType = "Phone"
+        else:
+            deviceType = "Tablet"
+        aVersion = agent.split('Android')[-1].split(';')[0].strip()
+        return deviceType + " " + aVersion     
+        
 class WebOS(Dist):
     look_for = 'hpwOS'
 
