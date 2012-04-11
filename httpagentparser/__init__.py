@@ -119,6 +119,16 @@ class Konqueror(Browser):
     look_for = "Konqueror"
     version_splitters = ["/", ";"]
 
+class OperaMobile(Browser):
+    look_for = "Opera Mobi"
+    name = "Opera Mobile"
+    def getVersion(self, agent):
+        try:
+            look_for = "Version"
+            return agent.split(look_for)[1][1:].split(' ')[0]
+        except:
+            look_for = "Opera"
+            return agent.split(look_for)[1][1:].split(' ')[0]
 
 class Opera(Browser):
     look_for = "Opera"
@@ -252,10 +262,15 @@ class Android(Dist):
     def getVersion(self, agent):
         if "Mobile Safari" in agent:
             deviceType = "Phone"
-        else:
+        elif "Safari" in agent:
             deviceType = "Tablet"
+        else:
+            deviceType = None
         aVersion = agent.split('Android')[-1].split(';')[0].strip()
-        return deviceType + " " + aVersion     
+        if deviceType:
+            return deviceType + " " + aVersion
+        else:
+            return aVersion
         
 class WebOS(Dist):
     look_for = 'hpwOS'
@@ -398,6 +413,9 @@ if __name__ == '__main__':
 ("Mozilla/5.0 (PlayBook; U; RIM Tablet OS 1.0.0; en-US) AppleWebKit/534.11+ (KHTML, like Gecko) Version/7.1.0.7 Safari/534.11+",
     ('BlackberryPlaybook', 'Safari 7.1.0.7'),
     {'dist': {'name': 'BlackberryPlaybook'}, 'browser': {'version': '7.1.0.7', 'name': 'Safari'}},),
+("Opera/9.80 (Android 2.3.5; Linux; Opera Mobi/build-1203300859; U; en) Presto/2.10.254 Version/12.00",
+    ('Android Linux 2.3.5', 'Opera Mobile 12.00'),
+    {'dist': {'version': '2.3.5', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '12.00', 'name': 'Opera Mobile'}},),
 )
 
     class TestHAP(unittest.TestCase):
