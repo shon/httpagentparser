@@ -437,8 +437,8 @@ if __name__ == '__main__':
                 detect(agent)
             time_taken = time.time() - then
             no_of_tests = len(self.data) * self.harass_repeat
-            print "\nTime taken for %s detecttions: %s" % (no_of_tests, time_taken)
-            print "Time taken for single detecttion: ", time_taken / (len(self.data) * self.harass_repeat)
+            print "\nTime taken for %s detections: %s" % (no_of_tests, time_taken)
+            print "Time taken for single detection: ", time_taken / (len(self.data) * self.harass_repeat)
 
     unittest.main()
 
