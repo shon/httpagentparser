@@ -32,7 +32,8 @@ class DetectorsHub(dict):
             return detectors
         else:
             prefs.insert(0, '')
-            return sorted(detectors, key=lambda d: d.name in prefs and prefs.index(d.name) or sys.maxint)
+            return sorted(detectors,
+                key=lambda d: d.name in prefs and prefs.index(d.name) or sys.maxsize)
 
     def __iter__(self):
         return iter(self._known_types)
@@ -310,7 +311,7 @@ def detect(agent):
         else:
             detectors = _suggested_detectors
         for detector in detectors:
-            print "detector name: ", detector.name
+            print("detector name: %s" % detector.name)
             if detector.detect(agent, result):
                 prefs = detector.prefs
                 _suggested_detectors = detector._suggested_detectors
