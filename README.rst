@@ -1,3 +1,10 @@
+Features
+--------
+
+- Works on Python 2.5+ and Python 3
+- Fast
+- Detects OS and Browser. Does not aim to be a full featured agent parser
+
 Usage
 -----
 
