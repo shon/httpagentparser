@@ -8,7 +8,7 @@ simple_detect = httpagentparser.simple_detect
 data = (
 # tuple of tuples
 # tuple (agent-string, expected result of simple_detect, expected result of detect)
-("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10",
+    ("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10",
     ('MacOS Macintosh X 10.5', 'Firefox 3.0.10'),
     {'flavor': {'version': 'X 10.5', 'name': 'MacOS'}, 'os': {'name': 'Macintosh'}, 'browser': {'version': '3.0.10', 'name': 'Firefox'}},),
 ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_6) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.3 Safari/534.24,gzip(gfe)",
@@ -56,6 +56,9 @@ data = (
 ("Mozilla/5.0 (Linux; U; Android 2.3.5; en-in; HTC_DesireS_S510e Build/GRJ90) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
     ('Android Linux 2.3.5', 'Safari 4.0'),
     {'dist': {'version': '2.3.5', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '4.0', 'name': 'Safari'}},),
+    ("Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_1_1 like Mac OS X; es-es) AppleWebKit/534.46.0 (KHTML, like Gecko) CriOS/19.0.1084.60 Mobile/9B206 Safari/7534.48.3",
+    ('MacOS IPhone X', 'ChromeiOS 19.0.1084.60'),
+    {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': 'X', 'name': 'IPhone'}, 'browser': {'version': '19.0.1084.60', 'name': 'ChromeiOS'}},),
 )
 
 class TestHAP(unittest.TestCase):

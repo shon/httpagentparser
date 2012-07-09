@@ -250,6 +250,10 @@ class Chrome(Browser):
     look_for = "Chrome"
     version_splitters = ["/", " "]
 
+class ChromeiOS(Browser):
+    look_for = "CriOS"
+    version_splitters = ["/", " "]
+
 class ChromeOS(OS):
     look_for = "CrOS"
     version_splitters = [" ", " "]
