@@ -85,4 +85,5 @@ class TestHAP(unittest.TestCase):
         print("Time taken for single detection: %f" %
             (time_taken / (len(self.data) * self.harass_repeat)))
 
-unittest.main()
+if __name__ == '__main__':
+    unittest.main()
