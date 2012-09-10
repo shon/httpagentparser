@@ -13,7 +13,6 @@ setup(
     packages=find_packages(),
     author='Shekhar Tiwatne',
     author_email='pythonic@gmail.com',
-    url="http://flavors.me/shon",
     license="http://www.opensource.org/licenses/mit-license.php",
     test_suite="tests",
     )
