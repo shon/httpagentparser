@@ -59,6 +59,9 @@ data = (
     ("Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_1_1 like Mac OS X; es-es) AppleWebKit/534.46.0 (KHTML, like Gecko) CriOS/19.0.1084.60 Mobile/9B206 Safari/7534.48.3",
     ('MacOS IPhone X', 'ChromeiOS 19.0.1084.60'),
     {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': 'X', 'name': 'IPhone'}, 'browser': {'version': '19.0.1084.60', 'name': 'ChromeiOS'}},),
+    ("Mozilla/5.0 (X11; Linux x86_64; rv:7.0.1) Gecko/20111011 Firefox/7.0.1 SeaMonkey/2.4.1",
+    ("Linux", "SeaMonkey 2.4.1"),
+    {"os" : {"name": "Linux"}, "browser": {"name": "SeaMonkey", "version": "2.4.1"}}),
 )
 
 class TestHAP(unittest.TestCase):
