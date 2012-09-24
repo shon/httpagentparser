@@ -114,6 +114,10 @@ class Macintosh(OS):
 
 class Firefox(Browser):
     look_for = "Firefox"
+    skip_if_found = ["SeaMonkey"]
+    
+class SeaMonkey(Browser):
+    look_for = "SeaMonkey"
 
 
 class Konqueror(Browser):
