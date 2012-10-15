@@ -23,3 +23,8 @@ Usage
     ('Android Linux 2.3.5', 'Safari 4.0')
     >>> print httpagentparser.detect(s)
     {'dist': {'version': '2.3.5', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '4.0', 'name': 'Safari'}}
+
+History
+-------
+
+http://stackoverflow.com/questions/927552/parsing-http-user-agent-string/1151956#1151956
