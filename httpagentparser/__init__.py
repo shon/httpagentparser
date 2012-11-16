@@ -82,6 +82,8 @@ class DetectorBase(object):
     def getVersion(self, agent):
         # -> version string /None
         parts = agent.split(self.look_for + self.version_splitters[0])
+        if len(parts) == 1:
+            return None
         return parts[min(len(parts) - 1, 1)].split(self.version_splitters[1])[0].strip()
 
 
