@@ -118,6 +118,9 @@ class Firefox(Browser):
     
 class SeaMonkey(Browser):
     look_for = "SeaMonkey"
+    
+class IceCat(Browser):
+    look_for = "IceCat"
 
 
 class Konqueror(Browser):
