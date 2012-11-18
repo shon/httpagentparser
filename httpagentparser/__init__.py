@@ -10,7 +10,7 @@ Aim is
 import sys
 
 class DetectorsHub(dict):
-    _known_types = ['os', 'dist', 'flavor', 'browser']
+    _known_types = ['os', 'dist', 'flavor', 'browser', 'platform']
 
     def __init__(self, *args, **kw):
         dict.__init__(self, *args, **kw)
@@ -103,6 +103,12 @@ class Flavor(DetectorBase):
 class Browser(DetectorBase):
     info_type = "browser"
     can_register = False
+    
+class Device(DetectorBase):
+    info_type = "device"
+    can_register = False
+    def getVersion(self, agent):
+        return None
 
 
 class Macintosh(OS):
@@ -127,17 +133,6 @@ class Konqueror(Browser):
     look_for = "Konqueror"
     version_splitters = ["/", ";"]
 
-class OperaMobile(Browser):
-    look_for = "Opera Mobi"
-    name = "Opera Mobile"
-    def getVersion(self, agent):
-        try:
-            look_for = "Version"
-            return agent.split(look_for)[1][1:].split(' ')[0]
-        except:
-            look_for = "Opera"
-            return agent.split(look_for)[1][1:].split(' ')[0]
-
 class Opera(Browser):
     look_for = "Opera"
     def getVersion(self, agent):
@@ -147,6 +142,13 @@ class Opera(Browser):
         except:
             look_for = "Opera"
             return agent.split(look_for)[1][1:].split(' ')[0]
+
+class OperaMobi(Opera):
+    look_for = "Opera Mobi"
+    name = "Opera Mobile"
+
+class OperaMobiTablet(OperaMobi):
+    look_for = "Opera Tablet"
 
 class Netscape(Browser):
     look_for = "Netscape"
@@ -305,6 +307,25 @@ class IPad(Dist):
             if c in part:
                 version = part.split(c)[0]
                 return version.replace('_', '.')
+                
+class Tablet(Device):
+    look_for = 'Tablet'
+
+class IPadTablet(Device):
+    look_for = 'iPad'
+    name = "Tablet"
+    
+class Mobile(Device):
+    look_for = 'Mobile'
+    skip_if_found = ["iPad"]
+
+class OperaMobile(Device):
+    look_for = 'Opera Mobi'
+    name = "Mobile"
+    
+class OperaTablet(Device):
+    look_for = "Opera Tablet"
+    name = "Tablet"
 
 detectorshub = DetectorsHub()
 
