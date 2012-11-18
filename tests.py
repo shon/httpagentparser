@@ -62,6 +62,12 @@ data = (
     ("Mozilla/5.0 (X11; Linux x86_64; rv:7.0.1) Gecko/20111011 Firefox/7.0.1 SeaMonkey/2.4.1",
     ("Linux", "SeaMonkey 2.4.1"),
     {"os" : {"name": "Linux"}, "browser": {"name": "SeaMonkey", "version": "2.4.1"}}),
+    ("Mozilla/5.0 (Android; Tablet; rv:16.0) Gecko/16.0 Firefox/16.0",
+    ("Android", "Firefox 16.0"),
+    {"dist": {"name": "Android"}, "browser" : {"version" : "16.0", "name": "Firefox"}},),
+    ("Mozilla/5.0 (X11; Linux x86_64; rv:7.0.1) Gecko/20111106 IceCat/7.0.1",
+    ("Linux", "IceCat 7.0.1"),
+    {"os" : {"name": "Linux"}, "browser" : {"version" : "7.0.1", "name": "IceCat"}},),
 )
 
 class TestHAP(unittest.TestCase):
