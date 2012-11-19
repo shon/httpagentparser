@@ -39,8 +39,11 @@ data = (
     ('Macintosh', 'Microsoft Internet Explorer 7.0'),
     {'os': {'name': 'Macintosh'}, 'browser': {'version': '7.0', 'name': 'Microsoft Internet Explorer'}}),
 ("Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; GTB6.5; QQDownload 534; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC2; .NET CLR 2.0.50727; Media Center PC 6.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729)",
-  ('Windows XP', 'Microsoft Internet Explorer 6.0'),
-  {'os': {'version': 'XP', 'name': 'Windows'}, 'browser': {'version': '6.0', 'name': 'Microsoft Internet Explorer'}}),
+  ('Windows XP', 'Microsoft Internet Explorer 8.0'),
+  {'os': {'version': 'XP', 'name': 'Windows'}, 'browser': {'version': '8.0', 'name': 'Microsoft Internet Explorer'}}),
+('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; InfoPath.1; .NET CLR 3.5.30729; .NET CLR 3.0.30618; .NET4.0C)',
+    ('Windows XP', 'Microsoft Internet Explorer 8.0'),
+    {'os': {'version': 'XP', 'name': 'Windows'}, 'browser': {'version': '8.0', 'name': 'Microsoft Internet Explorer'}},),
 ("Opera/9.80 (X11; Linux i686; U; en) Presto/2.9.168 Version/11.50",
     ("Linux", "Opera 11.50"),
     {"os": {"name": "Linux"}, "browser": {"name": "Opera", "version": "11.50"}},),
@@ -74,6 +77,9 @@ data = (
 ("Mozilla/5.0 (X11; Linux x86_64; rv:7.0.1) Gecko/20111011 Firefox/7.0.1 SeaMonkey/2.4.1",
     ("Linux", "SeaMonkey 2.4.1"),
     {"os" : {"name": "Linux"}, "browser": {"name": "SeaMonkey", "version": "2.4.1"}}),
+("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:16.0) Gecko/20100101 Firefox/16.0",
+    ("Ubuntu Linux", "Firefox 16.0"),
+    {'dist': {'name': 'Ubuntu'}, 'os': {'name': 'Linux'}, 'browser': {'version': '16.0', 'name': 'Firefox'}},),
 )
 
 class TestHAP(unittest.TestCase):
