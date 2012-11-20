@@ -84,6 +84,8 @@ class DetectorBase(object):
         parts = agent.split(self.look_for + self.version_splitters[0])
         if len(parts) == 1:
             return None
+        if len(self.version_splitters) == 1:
+            return parts[1]
         return parts[min(len(parts) - 1, 1)].split(self.version_splitters[1])[0].strip()
 
 
@@ -118,7 +120,7 @@ class Macintosh(OS):
 class Firefox(Browser):
     look_for = "Firefox"
     skip_if_found = ["SeaMonkey"]
-    
+
 class SeaMonkey(Browser):
     look_for = "SeaMonkey"
 
