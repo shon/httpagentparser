@@ -226,6 +226,7 @@ class Windows(OS):
     look_for = 'Windows'
     prefs = dict(browser=["Microsoft Internet Explorer", 'Firefox'], dict=None, flavor=None)
     win_versions = {
+            "NT 6.2": "8",
             "NT 6.1": "7",
             "NT 6.0": "Vista",
             "NT 5.2": "Server 2003 / XP x64",
