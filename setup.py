@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='httpagentparser',
-    version='1.2.1',
+    version='1.2.2',
     url="https://github.com/shon/httpagentparser",
     classifiers=[
         'Programming Language :: Python',
