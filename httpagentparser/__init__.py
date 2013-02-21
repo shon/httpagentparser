@@ -258,6 +258,12 @@ class Debian(Dist):
 class Chrome(Browser):
     look_for = "Chrome"
     version_splitters = ["/", " "]
+    def getVersion(self, agent):
+        part = agent.split(self.look_for + self.version_splitters[0])[-1]
+        version = part.split(self.version_splitters[1])[0]
+        if '+' in version:
+            version = part.split('+')[0]
+        return version.strip()
 
 class ChromeiOS(Browser):
     look_for = "CriOS"
@@ -268,7 +274,10 @@ class ChromeOS(OS):
     version_splitters = [" ", " "]
     prefs = dict(browser=['Chrome'])
     def getVersion(self, agent):
-        return agent.split(self.look_for + self.version_splitters[0])[-1].split(self.version_splitters[1])[1].strip()[:-1]
+        version_splitters = self.version_splitters
+        if self.look_for + '+' in agent:
+            version_splitters = ['+', '+']
+        return agent.split(self.look_for + version_splitters[0])[-1].split(version_splitters[1])[1].strip()[:-1]
 
 class Android(Dist):
     look_for = 'Android'
