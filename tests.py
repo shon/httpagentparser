@@ -55,7 +55,7 @@ data = (
     {'dist': {'name': 'WebOS', 'version': '3.0.2'}, 'os' : {'name' : 'Linux'}, 'browser': {'name': 'WOSBrowser'}},),
 ("Mozilla/5.0 (iPad; CPU OS 5_0_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A405 Safari/7534.48.3",
     ('MacOS IPad X', 'Safari 5.1'),
-    {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': 'X', 'name': 'IPad'}, 'browser': {'version': '5.1', 'name': 'Safari'}},),
+    {'flavor': {'version': 'X', 'name': 'MacOS'}, 'dist': {'version': '5.0.1', 'name': 'IPad'}, 'browser': {'version': '5.1', 'name': 'Safari'}}),
 ("Mozilla/5.0 (Linux; U; Android 3.2.1; en-gb; Transformer TF101 Build/HTK75) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13",
     ('Android Linux 3.2.1', 'Safari 4.0'),
     {'dist': {'version': '3.2.1', 'name': 'Android'}, 'os': {'name': 'Linux'}, 'browser': {'version': '4.0', 'name': 'Safari'}},),
