@@ -1,11 +1,11 @@
 """
 Extract client information from http user agent
 The module does not try to detect all capabilities of browser in current form (it can easily be extended though).
-Aim is
-    * fast
+Tries to
+    * be fast
     * very easy to extend
     * reliable enough for practical purposes
-    * and assist python web apps to detect clients.
+    * assist python web apps to detect clients.
 """
 import sys
 
@@ -54,7 +54,8 @@ class DetectorBase(object):
     skip_if_found = [] # strings if present stop processin
     can_register = False
     prefs = dict() # dict(info_type = [name1, name2], ..)
-    version_splitters = ["/", " "]
+    version_markers = [("/", " ")]
+    allow_space_in_version = False
     _suggested_detectors = None
 
     def __init__(self):
@@ -80,19 +81,27 @@ class DetectorBase(object):
             return True
 
     def getVersion(self, agent):
-        # -> version string /None
-        parts = agent.split(self.look_for + self.version_splitters[0])
-        if len(parts) == 1:
-            return None
-        if len(self.version_splitters) == 1:
-            return parts[1]
-        return parts[min(len(parts) - 1, 1)].split(self.version_splitters[1])[0].strip()
+        """
+        => version string /None
+        """
+        version_markers = self.version_markers if \
+                isinstance(self.version_markers[0], (list, tuple)) else [self.version_markers]
+        version_part = agent.split(self.look_for, 1)[-1]
+        for start, end in version_markers:
+            if version_part.startswith(start) and end in version_part:
+                version = version_part[1:]
+                if end: # end could be empty string
+                    version = version.split(end)[0]
+                if not self.allow_space_in_version:
+                    version = version.split()[0]
+                return version
 
 
 class OS(DetectorBase):
     info_type = "os"
     can_register = False
-    version_splitters = [";", " "]
+    version_markers = [";", " "]
+    allow_space_in_version = True
 
 
 class Dist(DetectorBase):
@@ -119,15 +128,17 @@ class Macintosh(OS):
 
 class Firefox(Browser):
     look_for = "Firefox"
+    version_markers = [('/', '')]
     skip_if_found = ["SeaMonkey"]
 
 class SeaMonkey(Browser):
     look_for = "SeaMonkey"
+    version_markers = [('/', '')]
 
 
 class Konqueror(Browser):
     look_for = "Konqueror"
-    version_splitters = ["/", ";"]
+    version_markers = ["/", ";"]
 
 class OperaMobile(Browser):
     look_for = "Opera Mobi"
@@ -152,12 +163,13 @@ class Opera(Browser):
 
 class Netscape(Browser):
     look_for = "Netscape"
+    version_markers = [("/", '')]
 
 class MSIE(Browser):
     look_for = "MSIE"
     skip_if_found = ["Opera"]
     name = "Microsoft Internet Explorer"
-    version_splitters = [" ", ";"]
+    version_markers = [" ", ";"]
 
 
 class Galeon(Browser):
@@ -246,39 +258,39 @@ class Windows(OS):
 
 class Ubuntu(Dist):
     look_for = 'Ubuntu'
-    version_splitters = ["/", " "]
+    version_markers = ["/", " "]
     prefs = dict(browser=['Firefox'])
 
 
 class Debian(Dist):
     look_for = 'Debian'
-    version_splitters = ["/", " "]
+    version_markers = ["/", " "]
     prefs = dict(browser=['Firefox'])
 
 
 class Chrome(Browser):
     look_for = "Chrome"
-    version_splitters = ["/", " "]
+    version_markers = ["/", " "]
     def getVersion(self, agent):
-        part = agent.split(self.look_for + self.version_splitters[0])[-1]
-        version = part.split(self.version_splitters[1])[0]
+        part = agent.split(self.look_for + self.version_markers[0])[-1]
+        version = part.split(self.version_markers[1])[0]
         if '+' in version:
             version = part.split('+')[0]
         return version.strip()
 
 class ChromeiOS(Browser):
     look_for = "CriOS"
-    version_splitters = ["/", " "]
+    version_markers = ["/", " "]
 
 class ChromeOS(OS):
     look_for = "CrOS"
-    version_splitters = [" ", " "]
+    version_markers = [" ", " "]
     prefs = dict(browser=['Chrome'])
     def getVersion(self, agent):
-        version_splitters = self.version_splitters
+        version_markers = self.version_markers
         if self.look_for + '+' in agent:
-            version_splitters = ['+', '+']
-        return agent.split(self.look_for + version_splitters[0])[-1].split(version_splitters[1])[1].strip()[:-1]
+            version_markers = ['+', '+']
+        return agent.split(self.look_for + version_markers[0])[-1].split(version_markers[1])[1].strip()[:-1]
 
 class Android(Dist):
     look_for = 'Android'
@@ -307,16 +319,14 @@ class IPhone(Dist):
                 return version.replace('_', '.')
 
 class IPad(Dist):
-    look_for = 'iPad'
+    look_for = 'iPad; CPU OS'
     prefs = dict(browser=['Safari'])
+    version_markers = [(' ', ' ')]
+    allow_space_in_version = False
 
     def getVersion(self, agent):
-        version_end_chars = [';', ')']
-        part = agent.split('Mac OS')[-1].strip()
-        for c in version_end_chars:
-            if c in part:
-                version = part.split(c)[0]
-                return version.replace('_', '.')
+        version = super(Dist, self).getVersion(agent)
+        return version.replace('_', '.')
 
 detectorshub = DetectorsHub()
 
