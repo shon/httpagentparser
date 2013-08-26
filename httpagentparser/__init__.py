@@ -330,35 +330,12 @@ class IPad(Dist):
 
 detectorshub = DetectorsHub()
 
-def detect(agent):
+
+def detect(agent, fill_none=False):
+    """
+    fill_none: if name/version is not detected respective key is still added to the result with value None
+    """
     result = dict()
-    prefs = dict()
-    _suggested_detectors = []
-    for info_type in detectorshub:
-        if not _suggested_detectors:
-            detectors = detectorshub[info_type]
-            _d_prefs = prefs.get(info_type, [])
-            detectors = detectorshub.reorderByPrefs(detectors, _d_prefs)
-            if "detector" in locals():
-                detector._suggested_detectors = detectors
-        else:
-            detectors = _suggested_detectors
-        for detector in detectors:
-            print("detector name: %s" % detector.name)
-            if detector.detect(agent, result):
-                prefs = detector.prefs
-                _suggested_detectors = detector._suggested_detectors
-                break
-    return result
-
-
-class Result(dict):
-    def __missing__(self, k):
-        return ""
-
-
-def detect(agent):
-    result = Result()
     _suggested_detectors = []
     for info_type in detectorshub:
         detectors = _suggested_detectors or detectorshub[info_type]
@@ -368,6 +345,15 @@ def detect(agent):
                     _suggested_detectors = detectorshub.reorderByPrefs(detectors, detector.prefs.get(info_type))
                     detector._suggested_detectors = _suggested_detectors
                     break
+
+    if fill_none:
+        attrs_d = {'name': None, 'version': None}
+        for key in ('os', 'browser'):
+            if key not in result:
+                result[key] = attrs_d
+            else:
+                for k, v in attrs_d.items():
+                    result[k] = v
     return result
 
 

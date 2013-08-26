@@ -133,5 +133,12 @@ class TestHAP(unittest.TestCase):
         print("Time taken for single detection: %f" %
             (time_taken / (len(self.data) * self.harass_repeat)))
 
+    def test_fill_none(self):
+        self.assertEqual(detect(''), {})  # default
+        self.assertEqual(detect('', fill_none=False), {})
+        result = detect('', fill_none=True)
+        self.assertEqual(result['os'].get('name'), None)
+        self.assertEqual(result['browser'].get('version'), None)
+
 if __name__ == '__main__':
     unittest.main()
