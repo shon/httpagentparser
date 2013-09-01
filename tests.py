@@ -107,6 +107,10 @@ data = (
 ('Mozilla/5.0+(X11;+CrOS+i686+2465.163.0)+AppleWebKit/537.1+(KHTML,+like+Gecko)+Chrome/21.0.1180.91+Safari/537.1',
     ('ChromeOS 2465.163.0', 'Chrome 21.0.1180.91'),
     {'os': {'version': '2465.163.0', 'name': 'ChromeOS'}, 'browser': {'version': '21.0.1180.91', 'name': 'Chrome'}},),
+('Mozilla/5.0 (Linux; U; en-us; KFOT Build/IML74K) AppleWebKit/535.19 (KHTML, like Gecko) Silk/2.2 Safari/535.19 Silk-Accelerated=true',
+    ('Linux', 'Safari 535.19'),
+    {'os': {'name': 'Linux'}, 'browser': {'version': '535.19', 'name': 'Safari'}}),
+
 )
 
 class TestHAP(unittest.TestCase):

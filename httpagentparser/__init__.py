@@ -194,6 +194,8 @@ class Safari(Browser):
     def getVersion(self, agent):
         if "Version/" in agent:
             return agent.split('Version/')[-1].split(' ')[0].strip()
+        if "Safari/" in agent:
+            return agent.split('Safari/')[-1].split(' ')[0].strip()
         else:
             return agent.split('Safari ')[-1].split(' ')[0].strip() # Mobile Safari
 
@@ -340,7 +342,11 @@ def detect(agent, fill_none=False):
     for info_type in detectorshub:
         detectors = _suggested_detectors or detectorshub[info_type]
         for detector in detectors:
-            if detector.detect(agent, result):
+            try:
+                ret = detector.detect(agent, result)
+            except Exception as err:
+                ret = False
+            if ret:
                 if detector.prefs and not detector._suggested_detectors:
                     _suggested_detectors = detectorshub.reorderByPrefs(detectors, detector.prefs.get(info_type))
                     detector._suggested_detectors = _suggested_detectors
