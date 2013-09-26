@@ -124,7 +124,9 @@ class TestHAP(unittest.TestCase):
 
     def test_detect(self):
         for agent, simple_res, res in data:
-            self.assertEqual(detect(agent), res)
+            detected = detect(agent)
+            del detected['platform']
+            self.assertEqual(detected, res)
 
     def test_harass(self):
         then = time.time()
@@ -138,8 +140,8 @@ class TestHAP(unittest.TestCase):
             (time_taken / (len(self.data) * self.harass_repeat)))
 
     def test_fill_none(self):
-        self.assertEqual(detect(''), {})  # default
-        self.assertEqual(detect('', fill_none=False), {})
+        self.assertEqual(detect(''), {'platform': {'version': None, 'name': None}})  # default
+        self.assertEqual(detect('', fill_none=False), {'platform': {'version': None, 'name': None}})
         result = detect('', fill_none=True)
         self.assertEqual(result['os'].get('name'), None)
         self.assertEqual(result['browser'].get('version'), None)

@@ -57,6 +57,7 @@ class DetectorBase(object):
     version_markers = [("/", " ")]
     allow_space_in_version = False
     _suggested_detectors = None
+    platform = None
 
     def __init__(self):
         if not self.name:
@@ -70,6 +71,8 @@ class DetectorBase(object):
             version = self.getVersion(agent)
             if version:
                 result[self.info_type]['version'] = version
+            if self.platform:
+                result['platform'] = {'name': self.platform, 'version': version}
             return True
 
     def checkWords(self, agent):
@@ -102,16 +105,19 @@ class OS(DetectorBase):
     can_register = False
     version_markers = [";", " "]
     allow_space_in_version = True
+    platform = None
 
 
 class Dist(DetectorBase):
     info_type = "dist"
     can_register = False
+    platform = None
 
 
 class Flavor(DetectorBase):
     info_type = "flavor"
     can_register = False
+    platform = None
 
 
 class Browser(DetectorBase):
@@ -203,16 +209,21 @@ class Safari(Browser):
 class Linux(OS):
     look_for = 'Linux'
     prefs = dict(browser=["Firefox"], dist=["Ubuntu", "Android"], flavor=None)
+    platform = 'Linux'
 
     def getVersion(self, agent): pass
 
 class Blackberry(OS):
     look_for = 'BlackBerry'
     prefs = dict(dist=["BlackberryPlaybook"], flavor=None)
+    platform = 'BlackBerry'
+
     def getVersion(self, agent): pass
 
 class BlackberryPlaybook(Dist):
     look_for = 'PlayBook'
+    platform = 'BlackBerry'
+
     def getVersion(self, agent): pass
 
 class Macintosh(OS):
@@ -225,6 +236,7 @@ class Macintosh(OS):
 class MacOS(Flavor):
     look_for = 'Mac OS'
     prefs = dict(browser=['Firefox', 'Opera', "Microsoft Internet Explorer"])
+    platform = 'Mac OS'
 
     def getVersion(self, agent):
         version_end_chars = [';', ')']
@@ -238,6 +250,7 @@ class MacOS(Flavor):
 
 class Windows(OS):
     look_for = 'Windows'
+    platform = 'Windows'
     prefs = dict(browser=["Microsoft Internet Explorer", 'Firefox'], dict=None, flavor=None)
     win_versions = {
             "NT 6.2": "8",
@@ -286,6 +299,7 @@ class ChromeiOS(Browser):
 
 class ChromeOS(OS):
     look_for = "CrOS"
+    platform = ' ChromeOS'
     version_markers = [" ", " "]
     prefs = dict(browser=['Chrome'])
     def getVersion(self, agent):
@@ -297,6 +311,7 @@ class ChromeOS(OS):
 class Android(Dist):
     look_for = 'Android'
     prefs = dict(browser=['Safari'])
+    platform = 'Android'
 
     def getVersion(self, agent):
         return agent.split(self.look_for)[-1].split(';')[0].strip()
@@ -311,6 +326,7 @@ class WebOS(Dist):
 class IPhone(Dist):
     look_for = 'iPhone'
     prefs = dict(browser=['Safari'])
+    platform = 'iOS'
 
     def getVersion(self, agent):
         version_end_chars = [';', ')']
@@ -325,6 +341,7 @@ class IPad(Dist):
     prefs = dict(browser=['Safari'])
     version_markers = [(' ', ' ')]
     allow_space_in_version = False
+    platform = 'iOS'
 
     def getVersion(self, agent):
         version = super(Dist, self).getVersion(agent)
@@ -337,8 +354,9 @@ def detect(agent, fill_none=False):
     """
     fill_none: if name/version is not detected respective key is still added to the result with value None
     """
-    result = dict()
+    result = dict(platform=dict(name=None, version=None))
     _suggested_detectors = []
+
     for info_type in detectorshub:
         detectors = _suggested_detectors or detectorshub[info_type]
         for detector in detectors:
@@ -360,6 +378,7 @@ def detect(agent, fill_none=False):
             else:
                 for k, v in attrs_d.items():
                     result[k] = v
+
     return result
 
 
