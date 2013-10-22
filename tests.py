@@ -110,7 +110,9 @@ data = (
 ('Mozilla/5.0 (Linux; U; en-us; KFOT Build/IML74K) AppleWebKit/535.19 (KHTML, like Gecko) Silk/2.2 Safari/535.19 Silk-Accelerated=true',
     ('Linux', 'Safari 535.19'),
     {'os': {'name': 'Linux'}, 'browser': {'version': '535.19', 'name': 'Safari'}}),
-
+('Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko',
+    ('Windows 8.1', 'Microsoft Internet Explorer 11.0'),
+    {'os': {'name': 'Windows', 'version': '8.1'}, 'browser': {'version': '11.0', 'name': 'Microsoft Internet Explorer'}},),
 )
 
 class TestHAP(unittest.TestCase):
