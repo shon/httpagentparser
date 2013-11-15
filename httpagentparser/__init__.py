@@ -155,6 +155,15 @@ class Opera(Browser):
             return agent.split(look_for)[1][1:].split(' ')[0]
 
 
+class OperaNew(Browser):
+    """
+    Opera after version 15
+    """
+    name = "Opera"
+    look_for = "OPR"
+    version_markers = [('/', '')]
+
+
 class Netscape(Browser):
     look_for = "Netscape"
     version_markers = [("/", '')]
@@ -295,6 +304,7 @@ class Debian(Dist):
 class Chrome(Browser):
     look_for = "Chrome"
     version_markers = ["/", " "]
+    skip_if_found = ["OPR"]
 
     def getVersion(self, agent):
         part = agent.split(self.look_for + self.version_markers[0])[-1]
