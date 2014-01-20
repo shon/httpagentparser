@@ -69,7 +69,11 @@ class DetectorBase(object):
         for w in self.skip_if_found:
             if w in agent:
                 return False
-        if self.look_for in agent:
+        if isinstance(self.look_for, (tuple, list)):
+            for word in self.look_for:
+                if word in agent:
+                    return True
+        elif self.look_for in agent:
             return True
 
     def getVersion(self, agent):
@@ -247,6 +251,22 @@ class BlackberryPlaybook(Dist):
         pass
 
 
+class iOS(OS):
+    look_for = ('iPhone', 'iPad')
+
+
+class iPhone(Dist):
+    look_for = 'iPhone'
+    platform = 'iOS'
+
+
+class IPad(Dist):
+    look_for = 'iPad; CPU OS'
+    version_markers = [(' ', ' ')]
+    allow_space_in_version = False
+    platform = 'iOS'
+
+
 class Macintosh(OS):
     look_for = 'Macintosh'
 
@@ -257,6 +277,7 @@ class Macintosh(OS):
 class MacOS(Flavor):
     look_for = 'Mac OS'
     platform = 'Mac OS'
+    skip_if_found = ['iPhone', 'iPad']
 
     def getVersion(self, agent):
         version_end_chars = [';', ')']
@@ -344,30 +365,6 @@ class WebOS(Dist):
 
     def getVersion(self, agent):
         return agent.split('hpwOS/')[-1].split(';')[0].strip()
-
-
-class IPhone(Dist):
-    look_for = 'iPhone'
-    platform = 'iOS'
-
-    def getVersion(self, agent):
-        version_end_chars = [';', ')']
-        part = agent.split('Mac OS')[-1].strip()
-        for c in version_end_chars:
-            if c in part:
-                version = part.split(c)[0]
-                return version.replace('_', '.')
-
-
-class IPad(Dist):
-    look_for = 'iPad; CPU OS'
-    version_markers = [(' ', ' ')]
-    allow_space_in_version = False
-    platform = 'iOS'
-
-    def getVersion(self, agent):
-        version = super(Dist, self).getVersion(agent)
-        return version.replace('_', '.')
 
 
 class prefs:  # experimental
