@@ -211,7 +211,7 @@ class Safari(Browser):
     look_for = "Safari"
 
     def checkWords(self, agent):
-        unless_list = ["Chrome", "OmniWeb", "wOSBrowser"]
+        unless_list = ["Chrome", "OmniWeb", "wOSBrowser", "Android"]
         if self.look_for in agent:
             for word in unless_list:
                 if word in agent:
@@ -225,6 +225,12 @@ class Safari(Browser):
             return agent.split('Safari/')[-1].split(' ')[0].strip()
         else:
             return agent.split('Safari ')[-1].split(' ')[0].strip()  # Mobile Safari
+
+
+class AndroidBrowser(Browser):
+    look_for = "Android"
+    skip_if_found = ["Chrome"]
+    version_splitters = [" ", ";"]
 
 
 class Linux(OS):
