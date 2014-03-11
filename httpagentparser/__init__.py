@@ -254,17 +254,35 @@ class BlackberryPlaybook(Dist):
 class iOS(OS):
     look_for = ('iPhone', 'iPad')
 
-
 class iPhone(Dist):
     look_for = 'iPhone'
     platform = 'iOS'
 
+    def getVersion(self, agent):
+        version_end_chars = [' ']
+        if not "iPhone OS" in agent:
+            return None
+        part = agent.split('iPhone OS')[-1].strip()
+        for c in version_end_chars:
+            if c in part:
+                version = part.split(c)[0]
+                return version.replace('_', '.')
+        return None
 
 class IPad(Dist):
     look_for = 'iPad; CPU OS'
-    version_markers = [(' ', ' ')]
-    allow_space_in_version = False
     platform = 'iOS'
+
+    def getVersion(self, agent):
+        version_end_chars = [' ']
+        if not "CPU OS " in agent:
+            return None
+        part = agent.split('CPU OS ')[-1].strip()
+        for c in version_end_chars:
+            if c in part:
+                version = part.split(c)[0]
+                return version.replace('_', '.')
+        return None
 
 
 class Macintosh(OS):
