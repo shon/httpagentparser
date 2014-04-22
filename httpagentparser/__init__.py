@@ -142,7 +142,7 @@ class OperaMobile(Browser):
         try:
             look_for = "Version"
             return agent.split(look_for)[1][1:].split(' ')[0]
-        except:
+        except IndexError:
             look_for = "Opera"
             return agent.split(look_for)[1][1:].split(' ')[0]
 
@@ -154,7 +154,7 @@ class Opera(Browser):
         try:
             look_for = "Version"
             return agent.split(look_for)[1][1:].split(' ')[0]
-        except:
+        except IndexError:
             look_for = "Opera"
             return agent.split(look_for)[1][1:].split(' ')[0]
 
