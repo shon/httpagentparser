@@ -295,6 +295,55 @@ class YesupBot(Browser):
 class DotBot(Browser):
     look_for = "DotBot"
 
+class PhantomJS(Browser):
+    look_for = "Browser/Phantom"
+
+
+class NokiaOvi(Browser):
+    look_for = "S40OviBrowser"
+
+class UCBrowser(Browser):
+    look_for = "UCBrowser"
+
+class BrowserNG(Browser):
+    look_for = "BrowserNG"
+
+class Dolfin(Browser):
+    look_for = 'Dolfin'
+
+class NetFront(Browser):
+    look_for = 'NetFront'
+
+class Jasmine(Browser):
+    look_for = 'Jasmine'
+
+class Openwave(Browser):
+    look_for = 'Openwave'
+
+class UPBrowser(Browser):
+    look_for = 'UP.Browser'
+
+class OneBrowser(Browser):
+    look_for = 'OneBrowser'
+
+class ObigoInternetBrowser(Browser):
+    look_for = 'ObigoInternetBrowser'
+
+class TelecaBrowser(Browser):
+    look_for = 'TelecaBrowser'
+
+class MAUI(Browser):
+    look_for = 'Browser/MAUI'
+
+    def getVersion(self, agent):
+        version = agent.split("Release/")[-1][:10]
+        return version
+
+
+class NintendoBrowser(Browser):
+    look_for = 'NintendoBrowser'
+
+
 class Linux(OS):
     look_for = 'Linux'
     platform = 'Linux'
@@ -451,6 +500,25 @@ class WebOS(Dist):
 
     def getVersion(self, agent):
         return agent.split('hpwOS/')[-1].split(';')[0].strip()
+
+
+class NokiaS40(OS):
+    look_for = 'Series40'
+    platform = 'Nokia S40'
+
+    def getVersion(self, agent):
+        pass
+
+
+class Symbian(OS):
+    look_for = ['Symbian', 'SymbianOS']
+    platform = 'Symbian'
+
+
+class PlayStation(OS):
+    look_for = ['PlayStation', 'PLAYSTATION']
+    platform = 'PlayStation'
+    version_markers = [" ", ")"]
 
 
 class prefs:  # experimental
