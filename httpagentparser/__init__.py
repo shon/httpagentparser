@@ -226,6 +226,74 @@ class Safari(Browser):
         else:
             return agent.split('Safari ')[-1].split(' ')[0].strip()  # Mobile Safari
 
+class GoogleBot(Browser):
+    look_for = "Googlebot"
+
+class GoogleFeedFetcher(Browser):
+    look_for = "Feedfetcher-Google"
+
+    def get_version(self, agent):
+        pass
+
+class GoogleAppEngine(Browser):
+    look_for = "AppEngine-Google"
+
+    def get_version(self, agent):
+        pass
+
+class GoogleApps(Browser):
+    look_for = "GoogleApps script"
+
+    def get_version(self, agent):
+        pass
+
+class TwitterBot(Browser):
+    look_for = "Twitterbot"
+
+class MJ12Bot(Browser):
+    look_for = "MJ12bot"
+
+class YandexBot(Browser):
+    look_for = "YandexBot"
+
+class YandexAntivirus(Browser):
+    look_for = "YandexAntivirus"
+
+class YandexMetrika(Browser):
+    look_for = "YandexMetrika"
+
+class BingBot(Browser):
+    look_for = "bingbot"
+
+class LinkedInBot(Browser):
+    look_for = "LinkedInBot"
+
+class ArchiveDotOrgBot(Browser):
+    look_for = "archive.org_bot"
+
+class YoudaoBot(Browser):
+    look_for = "YoudaoBot"
+
+class YoudaoBotImage(Browser):
+    look_for = "YodaoBot-Image"
+
+class RogerBot(Browser):
+    look_for = "rogerbot"
+
+class TweetmemeBot(Browser):
+    look_for = "TweetmemeBot"
+
+class WebshotBot(Browser):
+    look_for = "WebshotBot"
+
+class SensikaBot(Browser):
+    look_for = "SensikaBot"
+
+class YesupBot(Browser):
+    look_for = "YesupBot"
+
+class DotBot(Browser):
+    look_for = "DotBot"
 
 class Linux(OS):
     look_for = 'Linux'
