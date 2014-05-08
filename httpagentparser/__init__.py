@@ -459,6 +459,7 @@ class MacOS(Flavor):
 class Windows(OS):
     look_for = 'Windows'
     platform = 'Windows'
+    skip_if_found = ["Windows Phone"]
     win_versions = {
                     "NT 6.3": "8.1",
                     "NT 6.2": "8",
@@ -478,6 +479,11 @@ class Windows(OS):
         v = self.win_versions.get(v, v)
         return v
 
+class WindowsPhone(OS, Mobile):
+    name = "Windows Phone"
+    platform = 'Windows'
+    look_for = ["Windows Phone OS", "Windows Phone"]
+    version_markers = [(" ", ";"), (" ", ")")]
 
 class Ubuntu(Dist):
     look_for = 'Ubuntu'
