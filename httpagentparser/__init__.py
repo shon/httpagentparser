@@ -234,7 +234,10 @@ class Safari(Browser):
             return agent.split('Safari ')[-1].split(' ')[0].strip()  # Mobile Safari
 
 class GoogleBot(Browser, Bot):
-    look_for = "Googlebot"
+    # https://support.google.com/webmasters/answer/1061943
+    look_for = ["Googlebot", "Googlebot-News", "Googlebot-Image",
+                "Googlebot-Video", "Googlebot-Mobile", "Mediapartners-Google",
+                "Mediapartners", "AdsBot-Google"]
 
 class GoogleFeedFetcher(Browser, Bot):
     look_for = "Feedfetcher-Google"
@@ -261,13 +264,10 @@ class MJ12Bot(Browser, Bot):
     look_for = "MJ12bot"
 
 class YandexBot(Browser, Bot):
-    look_for = "YandexBot"
-
-class YandexAntivirus(Browser, Bot):
-    look_for = "YandexAntivirus"
-
-class YandexMetrika(Browser, Bot):
-    look_for = "YandexMetrika"
+    # http://help.yandex.com/search/robots/agent.xml
+    look_for = "Yandex"
+    def getVersion(self, agent):
+        return agent[agent.index('Yandex'):].split('/')[-1].split(')')[0].strip()
 
 class BingBot(Browser, Bot):
     look_for = "bingbot"
