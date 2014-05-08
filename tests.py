@@ -136,6 +136,11 @@ class TestHAP(unittest.TestCase):
             del detected['platform']
             self.assertEqual(detected, res)
 
+    def test_bot(self):
+        s = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+        d = detect(s)
+        self.assertTrue(d['bot'])
+
     def test_harass(self):
         then = time.time()
         for agent, simple_res, res in data * self.harass_repeat:

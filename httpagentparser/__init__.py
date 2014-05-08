@@ -8,6 +8,8 @@ Tries to
     * assist python web apps to detect clients.
 """
 
+__version__ = '1.7.1'
+
 
 class DetectorsHub(dict):
     _known_types = ['os', 'dist', 'flavor', 'browser']
