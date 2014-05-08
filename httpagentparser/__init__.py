@@ -325,6 +325,7 @@ class SensikaBot(Browser):
 
 class YesupBot(Browser):
     look_for = "YesupBot"
+    bot = True
 
 class DotBot(Browser):
     look_for = "DotBot"
