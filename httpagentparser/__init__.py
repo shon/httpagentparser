@@ -351,11 +351,13 @@ class NintendoBrowser(Browser):
     look_for = 'NintendoBrowser'
 
 
-class AndroidBrowser(Browser):
+class AndroidBrowser(Browser, Mobile):
     look_for = "Android"
     skip_if_found = ["Chrome"]
-    version_splitters = [" ", ";"]
 
+    # http://decadecity.net/blog/2013/11/21/android-browser-versions
+    def getVersion(self, agent):
+        pass
 
 class Linux(OS):
     look_for = 'Linux'
