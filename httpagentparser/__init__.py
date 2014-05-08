@@ -218,7 +218,7 @@ class Safari(Browser):
     look_for = "Safari"
 
     def checkWords(self, agent):
-        unless_list = ["Chrome", "OmniWeb", "wOSBrowser"]
+        unless_list = ["Chrome", "OmniWeb", "wOSBrowser", "Android"]
         if self.look_for in agent:
             for word in unless_list:
                 if word in agent:
@@ -349,6 +349,12 @@ class MAUI(Browser, Mobile):
 
 class NintendoBrowser(Browser):
     look_for = 'NintendoBrowser'
+
+
+class AndroidBrowser(Browser):
+    look_for = "Android"
+    skip_if_found = ["Chrome"]
+    version_splitters = [" ", ";"]
 
 
 class Linux(OS):
