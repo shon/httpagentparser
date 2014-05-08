@@ -62,6 +62,7 @@ class DetectorBase(object):
                 result[self.info_type]['version'] = version
             if self.platform:
                 result['platform'] = {'name': self.platform, 'version': version}
+            result['kind'] = self.kind if hasattr(self, 'kind') else result.get('kind', 'desktop')
             return True
 
     def checkWords(self, agent):
@@ -117,6 +118,12 @@ class Browser(DetectorBase):
     info_type = "browser"
     can_register = False
 
+class Bot(object):
+    kind = 'bot'
+
+
+class Mobile(object):
+    kind = 'mobile'
 
 class Firefox(Browser):
     look_for = "Firefox"
@@ -134,7 +141,7 @@ class Konqueror(Browser):
     version_markers = ["/", ";"]
 
 
-class OperaMobile(Browser):
+class OperaMobile(Browser, Mobile):
     look_for = "Opera Mobi"
     name = "Opera Mobile"
 
@@ -200,7 +207,7 @@ class Galeon(Browser):
     look_for = "Galeon"
 
 
-class WOSBrowser(Browser):
+class WOSBrowser(Browser, Mobile):
     look_for = "wOSBrowser"
 
     def getVersion(self, agent):
@@ -211,7 +218,7 @@ class Safari(Browser):
     look_for = "Safari"
 
     def checkWords(self, agent):
-        unless_list = ["Chrome", "OmniWeb", "wOSBrowser"]
+        unless_list = ["Chrome", "OmniWeb", "wOSBrowser", "Android"]
         if self.look_for in agent:
             for word in unless_list:
                 if word in agent:
@@ -226,6 +233,131 @@ class Safari(Browser):
         else:
             return agent.split('Safari ')[-1].split(' ')[0].strip()  # Mobile Safari
 
+class GoogleBot(Browser, Bot):
+    # https://support.google.com/webmasters/answer/1061943
+    look_for = ["Googlebot", "Googlebot-News", "Googlebot-Image",
+                "Googlebot-Video", "Googlebot-Mobile", "Mediapartners-Google",
+                "Mediapartners", "AdsBot-Google"]
+
+class GoogleFeedFetcher(Browser, Bot):
+    look_for = "Feedfetcher-Google"
+
+    def get_version(self, agent):
+        pass
+
+class GoogleAppEngine(Browser, Bot):
+    look_for = "AppEngine-Google"
+
+    def get_version(self, agent):
+        pass
+
+class GoogleApps(Browser, Bot):
+    look_for = "GoogleApps script"
+
+    def get_version(self, agent):
+        pass
+
+class TwitterBot(Browser, Bot):
+    look_for = "Twitterbot"
+
+class MJ12Bot(Browser, Bot):
+    look_for = "MJ12bot"
+
+class YandexBot(Browser, Bot):
+    # http://help.yandex.com/search/robots/agent.xml
+    look_for = "Yandex"
+    def getVersion(self, agent):
+        return agent[agent.index('Yandex'):].split('/')[-1].split(')')[0].strip()
+
+class BingBot(Browser, Bot):
+    look_for = "bingbot"
+
+class LinkedInBot(Browser, Bot):
+    look_for = "LinkedInBot"
+
+class ArchiveDotOrgBot(Browser, Bot):
+    look_for = "archive.org_bot"
+
+class YoudaoBot(Browser, Bot):
+    look_for = "YoudaoBot"
+
+class YoudaoBotImage(Browser, Bot):
+    look_for = "YodaoBot-Image"
+
+class RogerBot(Browser, Bot):
+    look_for = "rogerbot"
+
+class TweetmemeBot(Browser, Bot):
+    look_for = "TweetmemeBot"
+
+class WebshotBot(Browser, Bot):
+    look_for = "WebshotBot"
+
+class SensikaBot(Browser, Bot):
+    look_for = "SensikaBot"
+
+class YesupBot(Browser, Bot):
+    look_for = "YesupBot"
+
+class DotBot(Browser, Bot):
+    look_for = "DotBot"
+
+class PhantomJS(Browser, Bot):
+    look_for = "Browser/Phantom"
+
+
+class NokiaOvi(Browser, Mobile):
+    look_for = "S40OviBrowser"
+
+class UCBrowser(Browser, Mobile):
+    look_for = "UCBrowser"
+
+class BrowserNG(Browser, Mobile):
+    look_for = "BrowserNG"
+
+class Dolfin(Browser, Mobile):
+    look_for = 'Dolfin'
+
+class NetFront(Browser, Mobile):
+    look_for = 'NetFront'
+
+class Jasmine(Browser, Mobile):
+    look_for = 'Jasmine'
+
+class Openwave(Browser, Mobile):
+    look_for = 'Openwave'
+
+class UPBrowser(Browser, Mobile):
+    look_for = 'UP.Browser'
+
+class OneBrowser(Browser, Mobile):
+    look_for = 'OneBrowser'
+
+class ObigoInternetBrowser(Browser, Mobile):
+    look_for = 'ObigoInternetBrowser'
+
+class TelecaBrowser(Browser, Mobile):
+    look_for = 'TelecaBrowser'
+
+class MAUI(Browser, Mobile):
+    look_for = 'Browser/MAUI'
+
+    def getVersion(self, agent):
+        version = agent.split("Release/")[-1][:10]
+        return version
+
+
+class NintendoBrowser(Browser):
+    look_for = 'NintendoBrowser'
+
+
+class AndroidBrowser(Browser, Mobile):
+    look_for = "Android"
+    skip_if_found = ["Chrome"]
+
+    # http://decadecity.net/blog/2013/11/21/android-browser-versions
+    def getVersion(self, agent):
+        pass
 
 class Linux(OS):
     look_for = 'Linux'
@@ -235,7 +367,7 @@ class Linux(OS):
         pass
 
 
-class Blackberry(OS):
+class Blackberry(OS, Mobile):
     look_for = 'BlackBerry'
     platform = 'BlackBerry'
 
@@ -254,7 +386,7 @@ class BlackberryPlaybook(Dist):
 class iOS(OS):
     look_for = ('iPhone', 'iPad')
 
-class iPhone(Dist):
+class iPhone(Dist, Mobile):
     look_for = 'iPhone'
     platform = 'iOS'
 
@@ -353,7 +485,7 @@ class Chrome(Browser):
         return version.strip()
 
 
-class ChromeiOS(Browser):
+class ChromeiOS(Browser, Mobile):
     look_for = "CriOS"
     version_markers = ["/", " "]
 
@@ -370,7 +502,7 @@ class ChromeOS(OS):
         return agent.split(self.look_for + version_markers[0])[-1].split(version_markers[1])[1].strip()[:-1]
 
 
-class Android(Dist):
+class Android(Dist, Mobile):
     look_for = 'Android'
     platform = 'Android'
 
@@ -378,11 +510,30 @@ class Android(Dist):
         return agent.split(self.look_for)[-1].split(';')[0].strip()
 
 
-class WebOS(Dist):
+class WebOS(Dist, Mobile):
     look_for = 'hpwOS'
 
     def getVersion(self, agent):
         return agent.split('hpwOS/')[-1].split(';')[0].strip()
+
+
+class NokiaS40(OS, Mobile):
+    look_for = 'Series40'
+    platform = 'Nokia S40'
+
+    def getVersion(self, agent):
+        pass
+
+
+class Symbian(OS, Mobile):
+    look_for = ['Symbian', 'SymbianOS']
+    platform = 'Symbian'
+
+
+class PlayStation(OS):
+    look_for = ['PlayStation', 'PLAYSTATION']
+    platform = 'PlayStation'
+    version_markers = [" ", ")"]
 
 
 class prefs:  # experimental
