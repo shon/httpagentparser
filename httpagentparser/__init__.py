@@ -62,7 +62,7 @@ class DetectorBase(object):
                 result[self.info_type]['version'] = version
             if self.platform:
                 result['platform'] = {'name': self.platform, 'version': version}
-            result['kind'] = self.kind if hasattr(self, 'kind') else 'desktop'
+            result['kind'] = self.kind if hasattr(self, 'kind') else result.get('kind', 'desktop')
             return True
 
     def checkWords(self, agent):
@@ -375,7 +375,7 @@ class BlackberryPlaybook(Dist):
         pass
 
 
-class iOS(OS, Mobile):
+class iOS(OS):
     look_for = ('iPhone', 'iPad')
 
 class iPhone(Dist, Mobile):
