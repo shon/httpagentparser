@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 for line in open('httpagentparser/__init__.py'):
     if line.startswith('__version__'):
-        version = line.split('=')[-1].strip()
+        version = line.split('=')[-1].strip()[1:-1]
         break
 
 setup(
