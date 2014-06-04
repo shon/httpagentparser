@@ -67,6 +67,8 @@ class DetectorBase(object):
                 result[self.info_type]['version'] = version
             if self.platform:
                 result['platform'] = {'name': self.platform, 'version': version}
+            if hasattr(self, 'family'):
+                result[self.info_type]['family'] = self.family or self.name
             return True
 
     def checkWords(self, agent):
@@ -121,7 +123,7 @@ class Flavor(DetectorBase):
 class Browser(DetectorBase):
     info_type = "browser"
     can_register = False
-
+    family = None
 
 class Firefox(Browser):
     look_for = "Firefox"
@@ -142,6 +144,7 @@ class Konqueror(Browser):
 class OperaMobile(Browser):
     look_for = "Opera Mobi"
     name = "Opera Mobile"
+    family = "Opera"
 
     def getVersion(self, agent, word):
         try:
@@ -525,7 +528,7 @@ class Chrome(Browser):
 class ChromeiOS(Browser):
     look_for = "CriOS"
     version_markers = ["/", " "]
-
+    family = 'Chrome'
 
 class ChromeOS(OS):
     look_for = "CrOS"
