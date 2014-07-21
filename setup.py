@@ -8,7 +8,7 @@ for line in open('httpagentparser/__init__.py'):
 setup(
     name='httpagentparser',
     version=version,
-    url="https://github.com/shon/httpagentparser",
+    url="http://shon.github.com/httpagentparser",
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 3'
