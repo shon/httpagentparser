@@ -1,44 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Httpagentparser by shon</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
     <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <title>Httpagentparser by shon</title>
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/shon/httpagentparser">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/shon/httpagentparser/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/shon/httpagentparser/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <header>
+      <div class="inner">
+        <h1>Httpagentparser</h1>
+        <h2>Python HTTP Agent Parser</h2>
+        <a href="https://github.com/shon/httpagentparser" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-    <div class="wrapper">
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p><a href="https://crate.io/packages/httpagentparser/"><img src="https://pypip.in/d/httpagentparser/badge.png" alt="Number of PyPI downloads"></a></p>
 
-      <section>
-        <div id="title">
-          <h1>Httpagentparser</h1>
-          <p>Python HTTP Agent Parser</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/shon">shon</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
-        <h1>
+<h1>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h1>
 
 <ul>
@@ -50,37 +42,49 @@ parser</li>
 </ul><h1>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
 
-<div class="highlight highlight-python"><pre>
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">httpagentparser</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="s">"Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/532.9 </span><span class="se">\</span>
-<span class="s">        (KHTML, like Gecko) Chrome/5.0.307.11 Safari/532.9"</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">httpagentparser</span><span class="o">.</span><span class="n">simple_detect</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-<span class="p">(</span><span class="s">'Linux'</span><span class="p">,</span> <span class="s">'Chrome 5.0.307.11'</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">httpagentparser</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-<span class="p">{</span><span class="s">'os'</span><span class="p">:</span> <span class="p">{</span><span class="s">'name'</span><span class="p">:</span> <span class="s">'Linux'</span><span class="p">},</span>
- <span class="s">'browser'</span><span class="p">:</span> <span class="p">{</span><span class="s">'version'</span><span class="p">:</span> <span class="s">'5.0.307.11'</span><span class="p">,</span> <span class="s">'name'</span><span class="p">:</span> <span class="s">'Chrome'</span><span class="p">}}</span>
+<pre lang="sourceCode"><code>&gt;&gt;&gt; import httpagentparser
+&gt;&gt;&gt; s = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/532.9 (KHTML, like Gecko) \
+        Chrome/5.0.307.11 Safari/532.9"
+&gt;&gt;&gt; print httpagentparser.simple_detect(s)
+('Linux', 'Chrome 5.0.307.11')
+&gt;&gt;&gt; print httpagentparser.detect(s)
+{'os': {'name': 'Linux'},
+ 'browser': {'version': '5.0.307.11', 'name': 'Chrome'}}
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="s">"Mozilla/5.0 (Linux; U; Android 2.3.5; en-in; </span><span class="se">\</span>
-<span class="s">        HTC_DesireS_S510e Build/GRJ90) </span><span class="se">\</span>
-<span class="s">        AppleWebKit/533.1 (KHTML, like Gecko) </span><span class="se">\</span>
-<span class="s">        Version/4.0 Mobile Safari/533.1"</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">httpagentparser</span><span class="o">.</span><span class="n">simple_detect</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-<span class="p">(</span><span class="s">'Android Linux 2.3.5'</span><span class="p">,</span> <span class="s">'Safari 4.0'</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">httpagentparser</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-<span class="p">{</span><span class="s">'dist'</span><span class="p">:</span> <span class="p">{</span><span class="s">'version'</span><span class="p">:</span> <span class="s">'2.3.5'</span><span class="p">,</span> <span class="s">'name'</span><span class="p">:</span> <span class="s">'Android'</span><span class="p">},</span>
-<span class="s">'os'</span><span class="p">:</span> <span class="p">{</span><span class="s">'name'</span><span class="p">:</span> <span class="s">'Linux'</span><span class="p">},</span>
-<span class="s">'browser'</span><span class="p">:</span> <span class="p">{</span><span class="s">'version'</span><span class="p">:</span> <span class="s">'4.0'</span><span class="p">,</span> <span class="s">'name'</span><span class="p">:</span> <span class="s">'Safari'</span><span class="p">}}</span>
-</pre></div>
+&gt;&gt;&gt; s = "Mozilla/5.0 (Linux; U; Android 2.3.5; en-in; HTC_DesireS_S510e Build/GRJ90) \
+        AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1"
+&gt;&gt;&gt; print httpagentparser.simple_detect(s)
+('Android Linux 2.3.5', 'Safari 4.0')
+&gt;&gt;&gt; print httpagentparser.detect(s)
+{'dist': {'version': '2.3.5', 'name': 'Android'},
+'os': {'name': 'Linux'},
+'browser': {'version': '4.0', 'name': 'Safari'}}
+</code></pre>
 
 <h1>
 <a name="history" class="anchor" href="#history"><span class="octicon octicon-link"></span></a>History</h1>
 
 <p><a href="http://stackoverflow.com/questions/927552/parsing-http-user-agent-string/1151956#1151956">http://stackoverflow.com/questions/927552/parsing-http-user-agent-string/1151956#1151956</a></p>
-      </section>
+        </section>
 
+        <aside id="sidebar">
+          <a href="https://github.com/shon/httpagentparser/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/shon/httpagentparser/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/shon/httpagentparser"></a> is maintained by <a href="https://github.com/shon">shon</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-              <script type="text/javascript">
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
