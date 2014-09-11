@@ -1,4 +1,4 @@
-[![Number of PyPI downloads](https://pypip.in/d/httpagentparser.png)](https://crate.io/packages/httpagentparser/)
+[![Number of PyPI downloads](https://pypip.in/d/httpagentparser/badge.png)](https://crate.io/packages/httpagentparser/)
 
 Features
 ========
