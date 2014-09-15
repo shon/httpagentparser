@@ -8,7 +8,7 @@ Tries to
     * assist python web apps to detect clients.
 """
 
-__version__ = '1.7.3'
+__version__ = '1.7.4'
 
 
 class DetectorsHub(dict):
@@ -433,7 +433,7 @@ class iPhone(Dist):
         return None
 
 class IPad(Dist):
-    look_for = 'iPad; CPU OS'
+    look_for = 'iPad;'
     platform = 'iOS'
 
     def getVersion(self, agent, word):

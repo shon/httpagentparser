@@ -1,3 +1,5 @@
+|Number of PyPI downloads|
+
 Features
 --------
 
@@ -33,3 +35,7 @@ History
 -------
 
 http://stackoverflow.com/questions/927552/parsing-http-user-agent-string/1151956#1151956
+
+
+.. |Number of PyPI downloads| image:: https://pypip.in/d/httpagentparser.png
+   :target: https://crate.io/packages/httpagentparser/
