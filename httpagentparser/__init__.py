@@ -246,6 +246,10 @@ class GoogleFeedFetcher(Browser):
     def get_version(self, agent):
         pass
 
+class RunscopeRadar(Browser):
+    look_for = "runscope-radar"
+    bot = True
+
 class GoogleAppEngine(Browser):
     look_for = "AppEngine-Google"
     bot = True
