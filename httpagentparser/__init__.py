@@ -8,7 +8,7 @@ Tries to
     * assist python web apps to detect clients.
 """
 
-__version__ = '1.7.4'
+__version__ = '1.7.5'
 
 
 class DetectorsHub(dict):
@@ -126,7 +126,7 @@ class Browser(DetectorBase):
 class Firefox(Browser):
     look_for = "Firefox"
     version_markers = [('/', '')]
-    skip_if_found = ["SeaMonkey"]
+    skip_if_found = ["SeaMonkey", "web/snippet"]
 
 
 class SeaMonkey(Browser):
@@ -235,7 +235,7 @@ class GoogleBot(Browser):
     # https://support.google.com/webmasters/answer/1061943
     look_for = ["Googlebot", "Googlebot-News", "Googlebot-Image",
                 "Googlebot-Video", "Googlebot-Mobile", "Mediapartners-Google",
-                "Mediapartners", "AdsBot-Google"]
+                "Mediapartners", "AdsBot-Google", "web/snippet"]
     bot = True
     version_markers = [('/', ';'), ('/', ' ')]
 
@@ -333,6 +333,10 @@ class DotBot(Browser):
 
 class PhantomJS(Browser):
     look_for = "Browser/Phantom"
+    bot = True
+
+class FacebookExternalHit(Browser):
+    look_for = 'facebookexternalhit'
     bot = True
 
 
