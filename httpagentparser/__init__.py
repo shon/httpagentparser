@@ -216,7 +216,7 @@ class Safari(Browser):
     look_for = "Safari"
 
     def checkWords(self, agent):
-        unless_list = ["Chrome", "OmniWeb", "wOSBrowser"]
+        unless_list = ["Chrome", "OmniWeb", "wOSBrowser", "Android"]
         if self.look_for in agent:
             for word in unless_list:
                 if word in agent:
