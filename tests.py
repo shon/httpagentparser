@@ -143,6 +143,18 @@ data = (
 ('Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; HTC_HD2_T8585; Windows Phone 6.5)',
     ('Windows Phone 6.5', 'Microsoft Internet Explorer 6.0'),
     {'bot': False, 'browser': {'name': 'Microsoft Internet Explorer', 'version': '6.0'}, 'os': {'name': 'Windows Phone', 'version': '6.5'}}),
+('Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; HTC_HD2_T8585; Windows Phone 6.5)',
+    ('Windows Phone 6.5', 'Microsoft Internet Explorer 6.0'),
+    {'bot': False, 'browser': {'name': 'Microsoft Internet Explorer', 'version': '6.0'}, 'os': {'name': 'Windows Phone', 'version': '6.5'}}),
+('Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20110814 Firefox/6.0 Google (+https://developers.google.com/+/web/snippet/)',
+    ('Windows 7', 'GoogleBot'),
+    {'bot': True, 'browser': {'name': 'GoogleBot'}, 'os': {'name': 'Windows', 'version': '7'}}),
+('facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)',
+    ('Unknown OS', 'FacebookExternalHit 1.1'),
+    {'bot': True, 'browser': {'name': 'FacebookExternalHit', 'version': '1.1'},}),
+('runscope-radar/2.0',
+    ('Unknown OS', 'RunscopeRadar'),
+    {'bot': True, 'browser': {'name': 'RunscopeRadar'}})
 )
 
 class TestHAP(unittest.TestCase):
