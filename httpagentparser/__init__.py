@@ -8,7 +8,7 @@ Tries to
     * assist python web apps to detect clients.
 """
 
-__version__ = '1.7.5'
+__version__ = '1.7.6'
 
 
 class DetectorsHub(dict):
@@ -161,7 +161,8 @@ class Opera(Browser):
             return agent.split(look_for)[1][1:].split(' ')[0]
         except IndexError:
             look_for = "Opera"
-            return agent.split(look_for)[1][1:].split(' ')[0]
+            version = agent.split(look_for)[1][1:].split(' ')[0]
+            return version.split('(')[0]
 
 
 class OperaNew(Browser):
