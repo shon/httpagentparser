@@ -36,7 +36,5 @@ Dealing with Agents not supported by httpagentparser
 Build and upload new version
 ============================
 
-- Bump version in setup.py
+- Bump __version__ in httpagentparser/__init__.py
 - python setup.py sdist upload
-
-
