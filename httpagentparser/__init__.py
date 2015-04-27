@@ -8,7 +8,7 @@ Tries to
     * assist python web apps to detect clients.
 """
 
-__version__ = '1.7.6'
+__version__ = '1.7.7'
 
 
 class DetectorsHub(dict):
@@ -392,7 +392,7 @@ class NintendoBrowser(Browser):
 
 class AndroidBrowser(Browser):
     look_for = "Android"
-    skip_if_found = ["Chrome"]
+    skip_if_found = ['Chrome', 'Windows Phone']
 
     # http://decadecity.net/blog/2013/11/21/android-browser-versions
     def getVersion(self, agent, word):
@@ -423,12 +423,22 @@ class BlackberryPlaybook(Dist):
         pass
 
 
+class WindowsPhone(OS):
+    name = "Windows Phone"
+    platform = 'Windows'
+    look_for = ["Windows Phone OS", "Windows Phone"]
+    version_markers = [(" ", ";"), (" ", ")")]
+
+
 class iOS(OS):
     look_for = ('iPhone', 'iPad')
+    skip_if_found = ['like iPhone']
+
 
 class iPhone(Dist):
     look_for = 'iPhone'
     platform = 'iOS'
+    skip_if_found = ['like iPhone']
 
     def getVersion(self, agent, word):
         version_end_chars = [' ']
@@ -440,6 +450,7 @@ class iPhone(Dist):
                 version = part.split(c)[0]
                 return version.replace('_', '.')
         return None
+
 
 class IPad(Dist):
     look_for = 'iPad;'
@@ -479,6 +490,11 @@ class MacOS(Flavor):
         return ''
 
 
+class Windows(Dist):
+    look_for = 'Windows'
+    platform = 'Windows'
+
+
 class Windows(OS):
     look_for = 'Windows'
     platform = 'Windows'
@@ -502,11 +518,6 @@ class Windows(OS):
         v = self.win_versions.get(v, v)
         return v
 
-class WindowsPhone(OS):
-    name = "Windows Phone"
-    platform = 'Windows'
-    look_for = ["Windows Phone OS", "Windows Phone"]
-    version_markers = [(" ", ";"), (" ", ")")]
 
 class Ubuntu(Dist):
     look_for = 'Ubuntu'
@@ -551,6 +562,7 @@ class ChromeOS(OS):
 class Android(Dist):
     look_for = 'Android'
     platform = 'Android'
+    skip_if_found = ['Windows Phone']
 
     def getVersion(self, agent, word):
         return agent.split(word)[-1].split(';')[0].strip()

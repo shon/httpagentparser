@@ -157,7 +157,10 @@ data = (
     {'bot': True, 'browser': {'name': 'FacebookExternalHit', 'version': '1.1'},}),
 ('runscope-radar/2.0',
     ('Unknown OS', 'RunscopeRadar'),
-    {'bot': True, 'browser': {'name': 'RunscopeRadar'}})
+    {'bot': True, 'browser': {'name': 'RunscopeRadar'}}),
+('Mozilla/5.0 (Mobile; Windows Phone 8.1; Android 4.0; ARM; Trident/7.0; Touch; rv:11.0; IEMobile/11.0; NOKIA; Lumia 720) like iPhone OS 7_0_3 Mac OS X AppleWebKit/537 (KHTML, like Gecko) Mobile Safari/537',
+    ('Windows Phone 8.1', 'Microsoft Internet Explorer 11.0'),
+    {'os': {'version': '8.1', 'name': 'Windows Phone'}, 'bot': False, 'browser': {'version': '11.0', 'name': 'Microsoft Internet Explorer'}}),
 )
 
 class TestHAP(unittest.TestCase):
