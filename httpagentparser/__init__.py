@@ -12,7 +12,7 @@ __version__ = '1.7.7'
 
 
 class DetectorsHub(dict):
-    _known_types = ['os', 'dist', 'flavor', 'browser']
+    _known_types = ['os', 'dist', 'flavor', 'browser', 'bot',]
 
     def __init__(self, *args, **kw):
         dict.__init__(self, *args, **kw)
@@ -21,11 +21,12 @@ class DetectorsHub(dict):
         self.registerDetectors()
 
     def register(self, detector):
-        if detector.info_type not in self._known_types:
-            self[detector.info_type] = [detector]
-            self._known_types.insert(detector.order, detector.info_type)
+        detector_type = detector.variant_type if detector.variant_type is not None else detector.info_type
+        if detector_type not in self._known_types:
+            self[detector_type] = [detector]
+            self._known_types.insert(detector.order, detector_type)
         else:
-            self[detector.info_type].append(detector)
+            self[detector_type].append(detector)
 
     def __iter__(self):
         return iter(self._known_types)
@@ -40,6 +41,7 @@ class DetectorsHub(dict):
 class DetectorBase(object):
     name = ""  # "to perform match in DetectorsHub object"
     info_type = "override me"
+    variant_type = None
     result_key = "override me"
     order = 10  # 0 is highest
     look_for = "string to look for"
@@ -121,6 +123,11 @@ class Flavor(DetectorBase):
 class Browser(DetectorBase):
     info_type = "browser"
     can_register = False
+
+
+class Bot(DetectorBase):
+    info_type = "browser"
+    variant_type = "bot"
 
 
 class Firefox(Browser):
@@ -232,7 +239,8 @@ class Safari(Browser):
         else:
             return agent.split('Safari ')[-1].split(' ')[0].strip()  # Mobile Safari
 
-class GoogleBot(Browser):
+
+class GoogleBot(Bot):
     # https://support.google.com/webmasters/answer/1061943
     look_for = ["Googlebot", "Googlebot-News", "Googlebot-Image",
                 "Googlebot-Video", "Googlebot-Mobile", "Mediapartners-Google",
@@ -240,40 +248,41 @@ class GoogleBot(Browser):
     bot = True
     version_markers = [('/', ';'), ('/', ' ')]
 
-class GoogleFeedFetcher(Browser):
+
+class GoogleFeedFetcher(Bot):
     look_for = "Feedfetcher-Google"
     bot = True
 
     def get_version(self, agent):
         pass
 
-class RunscopeRadar(Browser):
+class RunscopeRadar(Bot):
     look_for = "runscope-radar"
     bot = True
 
-class GoogleAppEngine(Browser):
+class GoogleAppEngine(Bot):
     look_for = "AppEngine-Google"
     bot = True
 
     def get_version(self, agent):
         pass
 
-class GoogleApps(Browser):
+class GoogleApps(Bot):
     look_for = "GoogleApps script"
     bot = True
 
     def get_version(self, agent):
         pass
 
-class TwitterBot(Browser):
+class TwitterBot(Bot):
     look_for = "Twitterbot"
     bot = True
 
-class MJ12Bot(Browser):
+class MJ12Bot(Bot):
     look_for = "MJ12bot"
     bot = True
 
-class YandexBot(Browser):
+class YandexBot(Bot):
     # http://help.yandex.com/search/robots/agent.xml
     look_for = "Yandex"
     bot = True
@@ -281,13 +290,13 @@ class YandexBot(Browser):
     def getVersion(self, agent, word):
         return agent[agent.index('Yandex'):].split('/')[-1].split(')')[0].strip()
 
-class BingBot(Browser):
+class BingBot(Bot):
     look_for = "bingbot"
     version_markers = ["/", ";"]
     bot = True
 
 
-class BaiduBot(Browser):
+class BaiduBot(Bot):
     # http://help.baidu.com/question?prod_en=master&class=1&id=1000973
     look_for = ["Baiduspider", "Baiduspider-image", "Baiduspider-video",
                 "Baiduspider-news", "Baiduspider-favo", "Baiduspider-cpro",
@@ -296,51 +305,51 @@ class BaiduBot(Browser):
     version_markers = ('/', ';')
 
 
-class LinkedInBot(Browser):
+class LinkedInBot(Bot):
     look_for = "LinkedInBot"
     bot = True
 
-class ArchiveDotOrgBot(Browser):
+class ArchiveDotOrgBot(Bot):
     look_for = "archive.org_bot"
     bot = True
 
-class YoudaoBot(Browser):
+class YoudaoBot(Bot):
     look_for = "YoudaoBot"
     bot = True
 
-class YoudaoBotImage(Browser):
+class YoudaoBotImage(Bot):
     look_for = "YodaoBot-Image"
     bot = True
 
-class RogerBot(Browser):
+class RogerBot(Bot):
     look_for = "rogerbot"
     bot = True
 
-class TweetmemeBot(Browser):
+class TweetmemeBot(Bot):
     look_for = "TweetmemeBot"
     bot = True
 
-class WebshotBot(Browser):
+class WebshotBot(Bot):
     look_for = "WebshotBot"
     bot = True
 
-class SensikaBot(Browser):
+class SensikaBot(Bot):
     look_for = "SensikaBot"
     bot = True
 
-class YesupBot(Browser):
+class YesupBot(Bot):
     look_for = "YesupBot"
     bot = True
 
-class DotBot(Browser):
+class DotBot(Bot):
     look_for = "DotBot"
     bot = True
 
-class PhantomJS(Browser):
+class PhantomJS(Bot):
     look_for = "Browser/Phantom"
     bot = True
 
-class FacebookExternalHit(Browser):
+class FacebookExternalHit(Bot):
     look_for = 'facebookexternalhit'
     bot = True
 

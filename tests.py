@@ -162,8 +162,8 @@ data = (
     ('Windows Phone 8.1', 'Microsoft Internet Explorer 11.0'),
     {'os': {'version': '8.1', 'name': 'Windows Phone'}, 'bot': False, 'browser': {'version': '11.0', 'name': 'Microsoft Internet Explorer'}}),
 ('Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-    ('iPhone iOS 6.0', 'Safari 6.0'),
- {'bot': True, 'os': {'name': 'iOS'}, 'dist': {'name': 'iPhone', 'version': '6.0'}, 'browser': {'version': '6.0', 'name': 'Safari'}},),
+    ('iPhone iOS 6.0', 'GoogleBot 2.1'),
+ {'bot': True, 'os': {'name': 'iOS'}, 'dist': {'name': 'iPhone', 'version': '6.0'}, 'browser': {'version': '2.1', 'name': 'GoogleBot'}},),
 )
 
 class TestHAP(unittest.TestCase):
