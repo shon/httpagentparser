@@ -38,3 +38,10 @@ Build and upload new version
 
 - Bump __version__ in httpagentparser/__init__.py
 - python setup.py sdist upload
+
+Test httpagentparser
+====================
+To test httpagentparser from some Python versions, execute the command below (`tox <https://pypi.python.org/pypi/tox>`_ is required).
+
+- python setup.py test
+- (or python -m tox)
