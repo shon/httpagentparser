@@ -1,9 +1,5 @@
 [![Number of PyPI downloads](https://pypip.in/d/httpagentparser/badge.png)](https://crate.io/packages/httpagentparser/)
 
-Adoptions
-=========
-Added support for MS Edge 12-x + Windows 10
-
 Features
 ========
 
