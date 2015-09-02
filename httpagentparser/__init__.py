@@ -201,6 +201,10 @@ class MSIE(Browser):
     name = "Microsoft Internet Explorer"
     version_markers = [" ", ";"]
 
+class MSEdge(Browser):
+    look_for = "Edge"
+    skip_if_found = ["MSIE"]
+    version_markers = ["/", ""]
 
 class Galeon(Browser):
     look_for = "Galeon"
@@ -215,6 +219,7 @@ class WOSBrowser(Browser):
 
 class Safari(Browser):
     look_for = "Safari"
+    skip_if_found = ["Edge"]
 
     def checkWords(self, agent):
         unless_list = ["Chrome", "OmniWeb", "wOSBrowser", "Android"]
@@ -500,6 +505,7 @@ class Windows(OS):
     platform = 'Windows'
     skip_if_found = ["Windows Phone"]
     win_versions = {
+                    "NT 10.0": "10",
                     "NT 6.3": "8.1",
                     "NT 6.2": "8",
                     "NT 6.1": "7",
@@ -532,7 +538,7 @@ class Debian(Dist):
 class Chrome(Browser):
     look_for = "Chrome"
     version_markers = ["/", " "]
-    skip_if_found = ["OPR"]
+    skip_if_found = ["OPR", "Edge"]
 
     def getVersion(self, agent, word):
         part = agent.split(word + self.version_markers[0])[-1]
