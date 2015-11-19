@@ -222,7 +222,7 @@ class Safari(Browser):
     skip_if_found = ["Edge"]
 
     def checkWords(self, agent):
-        unless_list = ["Chrome", "OmniWeb", "wOSBrowser", "Android"]
+        unless_list = ["Chrome", "OmniWeb", "wOSBrowser", "Android", "CriOS"]
         if self.look_for in agent:
             for word in unless_list:
                 if word in agent:
