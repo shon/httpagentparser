@@ -219,7 +219,7 @@ class WOSBrowser(Browser):
 
 class Safari(Browser):
     look_for = "Safari"
-    skip_if_found = ["Edge"]
+    skip_if_found = ["Edge", "YaBrowser"]
 
     def checkWords(self, agent):
         unless_list = ["Chrome", "OmniWeb", "wOSBrowser", "Android", "CriOS"]
@@ -534,11 +534,10 @@ class Debian(Dist):
     look_for = 'Debian'
     version_markers = ["/", " "]
 
-
 class Chrome(Browser):
     look_for = "Chrome"
     version_markers = ["/", " "]
-    skip_if_found = ["OPR", "Edge"]
+    skip_if_found = ["OPR", "Edge", "YaBrowser"]
 
     def getVersion(self, agent, word):
         part = agent.split(word + self.version_markers[0])[-1]
@@ -547,6 +546,17 @@ class Chrome(Browser):
             version = part.split('+')[0]
         return version.strip()
 
+class YaBrowser(Browser):
+    look_for = "YaBrowser"
+    name = "Yandex.Browser"
+    version_markers = ["/", " "]
+
+    def getVersion(self, agent, word):
+        part = agent.split(word + self.version_markers[0])[-1]
+        version = part.split(self.version_markers[1])[0]
+        if '+' in version:
+            version = part.split('+')[0]
+        return version.strip()
 
 class ChromeiOS(Browser):
     look_for = "CriOS"

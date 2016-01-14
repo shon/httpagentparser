@@ -161,6 +161,9 @@ data = (
 ('Mozilla/5.0 (Mobile; Windows Phone 8.1; Android 4.0; ARM; Trident/7.0; Touch; rv:11.0; IEMobile/11.0; NOKIA; Lumia 720) like iPhone OS 7_0_3 Mac OS X AppleWebKit/537 (KHTML, like Gecko) Mobile Safari/537',
     ('Windows Phone 8.1', 'Microsoft Internet Explorer 11.0'),
     {'os': {'version': '8.1', 'name': 'Windows Phone'}, 'bot': False, 'browser': {'version': '11.0', 'name': 'Microsoft Internet Explorer'}}),
+('5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 YaBrowser/16.2.0.1818 (beta) Safari/537.36',
+    ('Linux', 'Yandex.Browser 16.2.0.1818'),
+    {'os': {'name': 'Linux'}, 'bot': False, 'browser': {'version': '16.2.0.1818', 'name': 'Yandex.Browser'}}),
 )
 
 class TestHAP(unittest.TestCase):
