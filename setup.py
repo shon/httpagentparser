@@ -47,7 +47,7 @@ setup(
     version=version,
     url="http://shon.github.com/httpagentparser",
     classifiers=[
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3'
         ],
     include_package_data=True,
