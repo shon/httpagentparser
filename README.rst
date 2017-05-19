@@ -3,7 +3,7 @@
 Features
 --------
 
-- Works on Python 2.5+ and Python 3
+- Works on Python 2.7 and Python 3
 - Fast
 - Detects OS and Browser. Does not aim to be a full featured agent parser
 - Will not turn into django-httpagentparser ;)
