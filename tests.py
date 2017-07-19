@@ -201,8 +201,13 @@ class TestHAP(unittest.TestCase):
         self.assertEqual(detect(''), {'platform': {'version': None, 'name': None}})  # default
         self.assertEqual(detect('', fill_none=False), {'platform': {'version': None, 'name': None}})
         result = detect('', fill_none=True)
-        self.assertEqual(result['os'].get('name'), None)
-        self.assertEqual(result['browser'].get('version'), None)
+        self.assertEqual(result['os']['name'], None)
+        self.assertEqual(result['browser']['version'], None)
+        result = detect('Linux; Android', fill_none=True)
+        self.assertEqual(result['os']['name'], 'Linux')
+        self.assertEqual(result['os']['version'], None)
+        self.assertEqual(result['browser']['name'], 'AndroidBrowser')
+        self.assertEqual(result['browser']['version'], None)
 
 if __name__ == '__main__':
     unittest.main()

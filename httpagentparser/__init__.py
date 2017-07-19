@@ -649,13 +649,10 @@ def detect(agent, fill_none=False):
                 pass
 
     if fill_none:
-        attrs_d = {'name': None, 'version': None}
-        for key in ('os', 'browser'):
-            if key not in result:
-                result[key] = attrs_d
-            else:
-                for k, v in attrs_d.items():
-                    result[k] = v
+        for outer_key in ('os', 'browser'):
+            outer_value = result.setdefault(outer_key, dict())
+            for inner_key in ('name', 'version'):
+                outer_value.setdefault(inner_key, None)
 
     return result
 
