@@ -8,7 +8,7 @@ Tries to
     * assist python web apps to detect clients.
 """
 
-__version__ = '1.7.9'
+__version__ = '1.8.0'
 
 
 class DetectorsHub(dict):
