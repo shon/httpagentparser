@@ -164,6 +164,9 @@ data = (
 ('5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 YaBrowser/16.2.0.1818 (beta) Safari/537.36',
     ('Linux', 'Yandex.Browser 16.2.0.1818'),
     {'os': {'name': 'Linux'}, 'bot': False, 'browser': {'version': '16.2.0.1818', 'name': 'Yandex.Browser'}}),
+('Mozilla/5.0 (Linux; Android 8.0.0; Nexus 5X Build/OPR6.170623.023) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36',
+    ('Android Linux 8.0.0', 'Chrome 62.0.3202.84'),
+    {'bot': False, 'browser': {'name': 'Chrome', 'version': '62.0.3202.84'}, 'dist': {'name': 'Android', 'version': '8.0.0'}, 'os': {'name': 'Linux'}}),
 )
 
 class TestHAP(unittest.TestCase):

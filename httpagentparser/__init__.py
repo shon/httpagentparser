@@ -8,7 +8,7 @@ Tries to
     * assist python web apps to detect clients.
 """
 
-__version__ = '1.8.0'
+__version__ = '1.8.1'
 
 
 class DetectorsHub(dict):
@@ -154,6 +154,7 @@ class OperaMobile(Browser):
 
 class Opera(Browser):
     look_for = "Opera"
+    skip_if_found = ['Opera Mobi']
 
     def getVersion(self, agent, word):
         try:
@@ -397,7 +398,7 @@ class NintendoBrowser(Browser):
 
 class AndroidBrowser(Browser):
     look_for = "Android"
-    skip_if_found = ['Chrome', 'Windows Phone']
+    skip_if_found = ['Chrome', 'Windows Phone', 'Opera']
 
     # http://decadecity.net/blog/2013/11/21/android-browser-versions
     def getVersion(self, agent, word):
@@ -537,7 +538,7 @@ class Debian(Dist):
 class Chrome(Browser):
     look_for = "Chrome"
     version_markers = ["/", " "]
-    skip_if_found = ["OPR", "Edge", "YaBrowser"]
+    skip_if_found = [" OPR", "Edge", "YaBrowser"]
 
     def getVersion(self, agent, word):
         part = agent.split(word + self.version_markers[0])[-1]
