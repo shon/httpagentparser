@@ -274,7 +274,11 @@ class GoogleApps(Browser):
 class TwitterBot(Browser):
     look_for = "Twitterbot"
     bot = True
-
+   
+class TelegramBot(Browser):
+    look_for = "TelegramBot"
+    bot = True
+   
 class MJ12Bot(Browser):
     look_for = "MJ12bot"
     bot = True
