@@ -8,7 +8,7 @@ Tries to
     * assist python web apps to detect clients.
 """
 
-__version__ = '1.8.1'
+__version__ = '1.8.2'
 
 
 class DetectorsHub(dict):
@@ -121,17 +121,6 @@ class Flavor(DetectorBase):
 class Browser(DetectorBase):
     info_type = "browser"
     can_register = False
-
-
-class Firefox(Browser):
-    look_for = "Firefox"
-    version_markers = [('/', '')]
-    skip_if_found = ["SeaMonkey", "web/snippet"]
-
-
-class SeaMonkey(Browser):
-    look_for = "SeaMonkey"
-    version_markers = [('/', '')]
 
 
 class Konqueror(Browser):
@@ -403,6 +392,17 @@ class AndroidBrowser(Browser):
     # http://decadecity.net/blog/2013/11/21/android-browser-versions
     def getVersion(self, agent, word):
         pass
+
+
+class Firefox(Browser):
+    look_for = "Firefox"
+    version_markers = [('/', '')]
+    skip_if_found = ["SeaMonkey", "web/snippet"]
+
+
+class SeaMonkey(Browser):
+    look_for = "SeaMonkey"
+    version_markers = [('/', '')]
 
 
 class Linux(OS):

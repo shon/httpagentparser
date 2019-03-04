@@ -41,6 +41,15 @@ Build and upload new version
 
 Test httpagentparser
 ====================
+
+nosetests
+---------
+
+- nosetests -xv tests.py
+  
+Tox
+---
+
 To test httpagentparser from some Python versions, execute the command below (`tox <https://pypi.python.org/pypi/tox>`_ is required).
 
 - python setup.py test
