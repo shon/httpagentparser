@@ -7,6 +7,7 @@ Tries to
     * reliable enough for practical purposes
     * assist python web apps to detect clients.
 """
+import re
 
 __version__ = '1.8.2'
 
@@ -17,15 +18,36 @@ class DetectorsHub(dict):
     def __init__(self, *args, **kw):
         dict.__init__(self, *args, **kw)
         for typ in self._known_types:
-            self.setdefault(typ, [])
+            self.setdefault(typ, "")
+        self.detectors = {}
         self.registerDetectors()
+        self.compileRegexes()
 
     def register(self, detector):
         if detector.info_type not in self._known_types:
-            self[detector.info_type] = [detector]
             self._known_types.insert(detector.order, detector.info_type)
+
+        if isinstance(detector.look_for, (tuple, list)):
+            for word in detector.look_for:
+                self.detectors[detector.info_type + word] = detector
         else:
-            self[detector.info_type].append(detector)
+            self.detectors[detector.info_type + detector.look_for] = detector
+        self.addToRegex(detector)
+
+    def addToRegex(self, detector):
+        if isinstance(detector.look_for, (tuple, list)):
+            look_for = "|".join(detector.look_for)
+        else:
+            look_for = detector.look_for
+
+        if self.get(detector.info_type):
+            self[detector.info_type] += "|" + look_for
+        else:
+            self[detector.info_type] = look_for
+
+    def compileRegexes(self):
+        for info_type in self._known_types:
+            self[info_type] = re.compile(self[info_type])
 
     def __iter__(self):
         return iter(self._known_types)
@@ -633,19 +655,20 @@ class prefs:  # experimental
 
 detectorshub = DetectorsHub()
 
-
 def detect(agent, fill_none=False):
     """
     fill_none: if name/version is not detected respective key is still added to the result with value None
     """
     result = dict(platform=dict(name=None, version=None))
-    _suggested_detectors = []
+    # _suggested_detectors = []
 
     for info_type in detectorshub:
-        detectors = _suggested_detectors or detectorshub[info_type]
-        for detector in detectors:
+        # detectors = _suggested_detectors or detectorshub[info_type]
+        matching = detectorshub[info_type].finditer(agent)
+        for match in matching:
             try:
-                detector.detect(agent, result)
+                if detectorshub.detectors[info_type + match.group()].detect(agent, result):
+                    break
             except Exception as _err:
                 pass
 
@@ -654,7 +677,6 @@ def detect(agent, fill_none=False):
             outer_value = result.setdefault(outer_key, dict())
             for inner_key in ('name', 'version'):
                 outer_value.setdefault(inner_key, None)
-
     return result
 
 
