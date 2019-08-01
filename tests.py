@@ -8,6 +8,9 @@ simple_detect = httpagentparser.simple_detect
 data = (
 # tuple of tuples
 # tuple (agent-string, expected result of simple_detect, expected result of detect)
+("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3861.0 Safari/537.36 Edg/77.0.230.2",
+    ('Windows 10', 'ChromiumEdge 77.0.230.2'),
+    {'bot': False, 'os': {'version': '10', 'name': 'Windows'},  'browser': {'version': '77.0.230.2', 'name': 'ChromiumEdge'}},),
 ("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-GB; rv:1.9.0.10) Gecko/2009042315 Firefox/3.0.10",
     ('MacOS Macintosh X 10.5', 'Firefox 3.0.10'),
     {'bot': False, 'flavor': {'version': 'X 10.5', 'name': 'MacOS'}, 'os': {'name': 'Macintosh'}, 'browser': {'version': '3.0.10', 'name': 'Firefox'}},),
