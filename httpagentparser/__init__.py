@@ -8,7 +8,7 @@ Tries to
     * assist python web apps to detect clients.
 """
 
-__version__ = '1.8.2'
+__version__ = '1.8.4'
 
 
 class DetectorsHub(dict):
@@ -272,11 +272,11 @@ class GoogleApps(Browser):
 class TwitterBot(Browser):
     look_for = "Twitterbot"
     bot = True
-   
+
 class TelegramBot(Browser):
     look_for = "TelegramBot"
     bot = True
-   
+
 class MJ12Bot(Browser):
     look_for = "MJ12bot"
     bot = True
