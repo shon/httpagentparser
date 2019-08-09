@@ -161,6 +161,7 @@ class OperaNew(Browser):
     """
     name = "Opera"
     look_for = "OPR"
+    skip_if_found = ["Build/OPR"]
     version_markers = [('/', '')]
 
 
@@ -195,6 +196,14 @@ class MSEdge(Browser):
     look_for = "Edge"
     skip_if_found = ["MSIE"]
     version_markers = ["/", ""]
+
+class ChromiumEdge(Browser):
+    look_for = "Edg/"
+
+    def getVersion(self, agent, word):
+        if "Edg/" in agent:
+            return agent.split('Edg/')[-1].strip()
+
 
 class Galeon(Browser):
     look_for = "Galeon"
@@ -263,7 +272,11 @@ class GoogleApps(Browser):
 class TwitterBot(Browser):
     look_for = "Twitterbot"
     bot = True
-
+   
+class TelegramBot(Browser):
+    look_for = "TelegramBot"
+    bot = True
+   
 class MJ12Bot(Browser):
     look_for = "MJ12bot"
     bot = True
@@ -538,7 +551,7 @@ class Debian(Dist):
 class Chrome(Browser):
     look_for = "Chrome"
     version_markers = ["/", " "]
-    skip_if_found = [" OPR", "Edge", "YaBrowser"]
+    skip_if_found = [" OPR", "Edge", "YaBrowser", "Edg/"]
 
     def getVersion(self, agent, word):
         part = agent.split(word + self.version_markers[0])[-1]
