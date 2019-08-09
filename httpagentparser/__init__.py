@@ -400,7 +400,7 @@ class NintendoBrowser(Browser):
 
 class AndroidBrowser(Browser):
     look_for = "Android"
-    skip_if_found = ['Chrome', 'Windows Phone', 'Opera']
+    skip_if_found = ['Chrome', 'Windows Phone', 'Opera', 'Firefox']
 
     # http://decadecity.net/blog/2013/11/21/android-browser-versions
     def getVersion(self, agent, word):
