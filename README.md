@@ -5,10 +5,6 @@
 [![Travis](https://img.shields.io/travis/shon/httpagentparser.svg)](https://travis-ci.org/shon/httpagentparser)
 
 
-.. image:: https://img.shields.io/travis/shon/httpagentparser.svg
-        :target: https://travis-ci.org/shon/httpagentparser
-
-
 Features
 ========
 
