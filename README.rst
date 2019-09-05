@@ -1,3 +1,6 @@
+.. image:: http://pepy.tech/badge/httpagentparser
+        :target: http://pepy.tech/project/httpagentparser
+
 .. image:: https://img.shields.io/pypi/v/httpagentparser.svg
         :target: https://pypi.python.org/pypi/httpagentparser
 

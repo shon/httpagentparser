@@ -1,5 +1,14 @@
 [![Downloads](http://pepy.tech/badge/httpagentparser)](http://pepy.tech/project/httpagentparser)
 
+[![PYPI](https://img.shields.io/pypi/v/httpagentparser.svg)](https://pypi.python.org/pypi/httpagentparser)
+
+[![Travis](https://img.shields.io/travis/shon/httpagentparser.svg)](https://travis-ci.org/shon/httpagentparser)
+
+
+.. image:: https://img.shields.io/travis/shon/httpagentparser.svg
+        :target: https://travis-ci.org/shon/httpagentparser
+
+
 Features
 ========
 
