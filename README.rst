@@ -1,3 +1,13 @@
+.. image:: https://img.shields.io/pypi/v/httpagentparser.svg
+        :target: https://pypi.python.org/pypi/httpagentparser
+
+.. image:: https://img.shields.io/travis/shon/httpagentparser.svg
+        :target: https://travis-ci.org/shon/httpagentparser
+
+
+.. image:: https://img.shields.io/travis/shon/httpagentparser.svg
+        :target: https://travis-ci.org/shon/httpagentparser
+
 Features
 --------
 
