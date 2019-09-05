@@ -1,0 +1,16 @@
+# Config file for automatic testing at travis-ci.org
+
+language: python
+matrix:
+    include:
+      - dist: xenial
+      - python: 3.6
+        env: TOXENV=py36
+
+install:
+  - pip install -U tox-travis
+
+script: tox
+
+after_success:
+  - coveralls
