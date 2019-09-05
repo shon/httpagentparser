@@ -595,7 +595,7 @@ class Android(Dist):
     skip_if_found = ['Windows Phone']
 
     def getVersion(self, agent, word):
-        return agent.split(word)[-1].split(';')[0].strip()
+        return agent.split(word)[-1].replace(')', ';').split(';')[0].strip()
 
 
 class WebOS(Dist):
