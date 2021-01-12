@@ -173,6 +173,9 @@ data = (
 ('Mozilla/5.0 (Android 6.0.1; Mobile; rv:63.0) Gecko/63.0 Firefox/63.0',
     ('Android 6.0.1', 'Firefox 63.0'),
     {'dist': {'name': 'Android', 'version': '6.0.1'}, 'bot': False, 'browser': {'name': 'Firefox', 'version': '63.0'}}),
+('Mozilla/5.0 (Linux; Android 8.1.0) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/76.0.3809.111 Mobile Safari/537.36',
+    ('Android Linux 8.1.0', 'Chrome 76.0.3809.111'),
+    {'os': {'name': 'Linux'}, 'bot': False, 'dist': {'version': '8.1.0', 'name': 'Android'}, 'browser': {'version': '76.0.3809.111', 'name': 'Chrome'}}),
 )
 
 class TestHAP(unittest.TestCase):
