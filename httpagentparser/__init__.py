@@ -31,8 +31,7 @@ class DetectorsHub(dict):
         return iter(self._known_types)
 
     def registerDetectors(self):
-        globals_copy = globals().copy()
-        detectors = [v() for v in globals_copy.values() if DetectorBase in getattr(v, '__mro__', [])]
+        detectors = [v() for v in list(globals().values()) if DetectorBase in getattr(v, '__mro__', [])]
         for d in detectors:
             if d.can_register:
                 self.register(d)
