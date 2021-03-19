@@ -671,6 +671,10 @@ def detect(agent, fill_none=False):
     return result
 
 
+UNKNOWN_OS_NAME = 'Unknown OS'
+UNKNOWN_BROWSER_NAME = 'Unknown Browser'
+
+
 def simple_detect_tuple(agent, parsed_agent=None):
     """
     @params:
@@ -690,10 +694,10 @@ def simple_detect_tuple(agent, parsed_agent=None):
     if 'os' in result:
         os_list.append(result['os']['name'])
 
-    os = os_list and " ".join(os_list) or "Unknown OS"
+    os = os_list and " ".join(os_list) or UNKNOWN_OS_NAME
     os_version = os_list and (result.get('flavor') and result['flavor'].get('version')) or \
         (result.get('dist') and result['dist'].get('version')) or (result.get('os') and result['os'].get('version')) or ""
-    browser = 'browser' in result and result['browser'].get('name') or 'Unknown Browser'
+    browser = 'browser' in result and result['browser'].get('name') or UNKNOWN_BROWSER_NAME
     browser_version = 'browser' in result and result['browser'].get('version') or ""
 
     return os, os_version, browser, browser_version
