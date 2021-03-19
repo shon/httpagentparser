@@ -671,11 +671,17 @@ def detect(agent, fill_none=False):
     return result
 
 
-def simple_detect(agent):
+def simple_detect_tuple(agent, parsed_agent=None):
     """
-    -> (os, browser) # tuple of strings
+    @params:
+        agent::str
+        parsed_agent::dict
+            The result of detect, used to save calculations
+
+    @return:
+        (os_name, os_version, browser_name, browser_version)::Tuple(str)
     """
-    result = detect(agent)
+    result = parsed_agent or detect(agent)
     os_list = []
     if 'flavor' in result:
         os_list.append(result['flavor']['name'])
@@ -689,6 +695,21 @@ def simple_detect(agent):
         (result.get('dist') and result['dist'].get('version')) or (result.get('os') and result['os'].get('version')) or ""
     browser = 'browser' in result and result['browser'].get('name') or 'Unknown Browser'
     browser_version = 'browser' in result and result['browser'].get('version') or ""
+
+    return os, os_version, browser, browser_version
+
+
+def simple_detect(agent, parsed_agent=None):
+    """
+    @params:
+        agent::str
+        parsed_agent::dict
+            The result of detect, used to save calculations
+
+    @return:
+        (os_name_version, browser_name_version)::Tuple(str)
+    """
+    os, os_version, browser, browser_version = simple_detect_tuple(agent, parsed_agent=parsed_agent)
     if browser_version:
         browser = " ".join((browser, browser_version))
     if os_version:
