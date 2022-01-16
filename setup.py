@@ -45,7 +45,7 @@ for line in open('httpagentparser/__init__.py'):
 setup(
     name='httpagentparser',
     version=version,
-    url="http://shon.github.com/httpagentparser",
+    url="https://github.com/shon/httpagentparser",
     classifiers=[
         'Programming Language :: Python :: 3'
         ],
