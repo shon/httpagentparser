@@ -218,7 +218,7 @@ class WOSBrowser(Browser):
 
 class Safari(Browser):
     look_for = "Safari"
-    skip_if_found = ["Edge", "YaBrowser"]
+    skip_if_found = ["Edge", "YaBrowser", "FxiOS"]
 
     def checkWords(self, agent):
         unless_list = ["Chrome", "OmniWeb", "wOSBrowser", "Android", "CriOS"]
@@ -408,7 +408,7 @@ class AndroidBrowser(Browser):
 
 
 class Firefox(Browser):
-    look_for = "Firefox"
+    look_for = ["Firefox", "FxiOS"]
     version_markers = [('/', '')]
     skip_if_found = ["SeaMonkey", "web/snippet"]
 
