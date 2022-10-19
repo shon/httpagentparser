@@ -176,6 +176,9 @@ data = (
 ('Mozilla/5.0 (Linux; Android 8.1.0) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/76.0.3809.111 Mobile Safari/537.36',
     ('Android Linux 8.1.0', 'Chrome 76.0.3809.111'),
     {'os': {'name': 'Linux'}, 'bot': False, 'dist': {'version': '8.1.0', 'name': 'Android'}, 'browser': {'version': '76.0.3809.111', 'name': 'Chrome'}}),
+("Mozilla/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/102.0 Mobile/15E148 Safari/605.1.15",
+    ('iPhone iOS 12.4', 'Firefox 102.0'),
+    {'os': {'name': 'iOS'}, "dist": {'name': 'iPhone', 'version': '12.4'}, 'bot': False, 'browser': {'name': 'Firefox', 'version': '102.0'}}),
 )
 
 class TestHAP(unittest.TestCase):
