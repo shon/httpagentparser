@@ -185,10 +185,15 @@ class Trident(Browser):
     def getVersion(self, agent, word):
         return self.trident_to_ie_versions.get(super(Trident, self).getVersion(agent, word))
 
+# Microsoft Outlook 16.0.4861
+class Outlook(Browser):
+    look_for = "Microsoft Outlook"
+    version_markers = [(" ", ";")]
+
 
 class MSIE(Browser):
     look_for = "MSIE"
-    skip_if_found = ["Opera"]
+    skip_if_found = ["Opera", "Outlook"]
     name = "Microsoft Internet Explorer"
     version_markers = [" ", ";"]
 
