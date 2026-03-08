@@ -5,17 +5,15 @@
 [![Travis](https://img.shields.io/travis/shon/httpagentparser.svg)](https://travis-ci.org/shon/httpagentparser)
 
 
-Features
-========
+# Features
 
 -   Fast
 -   Detects OS and Browser. Does not aim to be a full featured agent parser
 -   Will not turn into django-httpagentparser ;)
 
-Usage
-=====
+# Usage
 
-~~~~ {.sourceCode .python}
+```python
 >>> import httpagentparser
 >>> s = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/532.9 (KHTML, like Gecko) \
         Chrome/5.0.307.11 Safari/532.9"
@@ -33,9 +31,8 @@ Usage
 {'dist': {'version': '2.3.5', 'name': 'Android'},
 'os': {'name': 'Linux'},
 'browser': {'version': '4.0', 'name': 'Safari'}}
-~~~~
+```
 
-History
-=======
+# History
 
 <http://stackoverflow.com/questions/927552/parsing-http-user-agent-string/1151956#1151956>

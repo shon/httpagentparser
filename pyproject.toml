@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "httpagentparser"
+dynamic = ["version"]
+description = "Extracts OS Browser etc information from http user agent string"
+readme = "README.md"
+requires-python = ">=3.6"
+license = {file = "LICENSE.txt"}
+authors = [
+  {name = "Shekhar Tiwatne", email = "pythonic@gmail.com"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/shon/httpagentparser"
+
+[tool.setuptools]
+packages = ["httpagentparser"]
+
+[tool.setuptools.dynamic]
+version = {attr = "httpagentparser.__version__"}
