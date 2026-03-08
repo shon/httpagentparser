@@ -34,16 +34,11 @@ print(hap.simple_detect(s))
 
 # Build and upload new version
 
-- Bump `__version__` in `httpagentparser/__init__.py`
-- `python -m build`
-- `python -m twine upload dist/*`
+1. Bump `__version__` in `httpagentparser/__init__.py`
+2. Install modern build and upload tools: `python -m pip install build twine`
+3. Build the package: `python -m build`
+4. Upload to PyPI: `python -m twine upload dist/*`
 
 # Test httpagentparser
 
 - `python tests.py`
-
-## Tox
-
-To test httpagentparser from some Python versions, execute the command below (`tox` is required).
-
-- `python -m tox`
