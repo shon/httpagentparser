@@ -35,15 +35,9 @@ print(hap.simple_detect(s))
 # Build and upload new version
 
 - Bump `__version__` in `httpagentparser/__init__.py`
-- `python -m build`
-- `python -m twine upload dist/*`
+- `uv build`
+- `uv publish`
 
 # Test httpagentparser
 
 - `python tests.py`
-
-## Tox
-
-To test httpagentparser from some Python versions, execute the command below (`tox` is required).
-
-- `python -m tox`
