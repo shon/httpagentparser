@@ -28,7 +28,7 @@ data = (
     {'bot': False, 'os': {'name': 'iOS'}, 'dist': {'name': 'iPhone'}, 'browser': {'version': '3.0', 'name': 'Safari'}},),
 ("Mozilla/5.0 (X11; CrOS i686 0.0.0) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.27 Safari/534.24,gzip(gfe)",
     ('ChromeOS 0.0.0', 'Chrome 11.0.696.27'),
-    {'bot': False, 'os': {'name': 'ChromeOS', 'version': '0.0.0'}, 'browser': {'name': 'Chrome', 'version': '11.0.696.27'}},),
+    {'bot': False, 'platform': {'name': 'ChromeOS', 'version': '0.0.0'}, 'os': {'name': 'ChromeOS', 'version': '0.0.0'}, 'browser': {'name': 'Chrome', 'version': '11.0.696.27'}},),
 ("Mozilla/4.0 (compatible; MSIE 6.0; MSIE 5.5; Windows NT 5.1) Opera 7.02 [en]",
     ('Windows XP', 'Opera 7.02'),
     {'bot': False, 'os': {'name': 'Windows', 'version': 'XP'}, 'browser': {'name': 'Opera', 'version': '7.02'}},),
@@ -121,7 +121,7 @@ data = (
     {'bot': False, 'os': {'name': 'Windows', 'version': '7'}, 'browser': {'version': '17.0.1241.53', 'name': 'Opera'}},),
 ('Mozilla/5.0+(X11;+CrOS+i686+2465.163.0)+AppleWebKit/537.1+(KHTML,+like+Gecko)+Chrome/21.0.1180.91+Safari/537.1',
     ('ChromeOS 2465.163.0', 'Chrome 21.0.1180.91'),
-    {'bot': False, 'os': {'version': '2465.163.0', 'name': 'ChromeOS'}, 'browser': {'version': '21.0.1180.91', 'name': 'Chrome'}},),
+    {'bot': False, 'platform': {'name': 'ChromeOS', 'version': '2465.163.0'}, 'os': {'version': '2465.163.0', 'name': 'ChromeOS'}, 'browser': {'version': '21.0.1180.91', 'name': 'Chrome'}},),
 ('Mozilla/5.0 (Linux; U; en-us; KFOT Build/IML74K) AppleWebKit/535.19 (KHTML, like Gecko) Silk/2.2 Safari/535.19 Silk-Accelerated=true',
     ('Linux', 'Safari 535.19'),
     {'bot': False, 'os': {'name': 'Linux'}, 'browser': {'version': '535.19', 'name': 'Safari'}}),
@@ -193,7 +193,8 @@ class TestHAP(unittest.TestCase):
     def test_detect(self):
         for agent, simple_res, res in data:
             detected = detect(agent)
-            del detected['platform']
+            if 'platform' not in res:
+                del detected['platform']
             self.assertEqual(detected, res)
 
     def test_bot(self):

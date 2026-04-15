@@ -584,7 +584,7 @@ class ChromeiOS(Browser):
 
 class ChromeOS(OS):
     look_for = "CrOS"
-    platform = ' ChromeOS'
+    platform = 'ChromeOS'
     version_markers = [" ", " "]
 
     def getVersion(self, agent, word):
